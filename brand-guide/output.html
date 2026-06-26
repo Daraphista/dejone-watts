@@ -1,0 +1,2348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DeJone Watts Real Estate | Fresno &amp; Central Valley</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              sand: "#e0d4c9",
+              cream: "#efeae6",
+              dark: "#2d2b2a",
+            },
+            fontFamily: {
+              display: ['"Playfair Display"', "serif"],
+              sans: ["Montserrat", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Section eyebrow */
+      .section-eyebrow {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .section-eyebrow::before {
+        content: "";
+        display: block;
+        width: 3px;
+        min-height: 3.5rem;
+        background: #2d2b2a;
+        flex-shrink: 0;
+      }
+      .section-eyebrow-light::before {
+        background: rgba(224, 212, 201, 0.5);
+      }
+
+      /* Deco SVG overlay */
+      .deco-line {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .deco-line svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes bounceDown {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(8px);
+        }
+      }
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.94);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .anim-fade-up {
+        animation: fadeUp 0.7s ease both;
+      }
+      .anim-fade-in {
+        animation: fadeIn 0.6s ease both;
+      }
+      .anim-slide-left {
+        animation: slideInLeft 0.7s ease both;
+      }
+      .anim-scale-in {
+        animation: scaleIn 0.6s ease both;
+      }
+      .anim-bounce {
+        animation: bounceDown 1.4s ease-in-out infinite;
+      }
+      .delay-100 {
+        animation-delay: 0.1s;
+      }
+      .delay-200 {
+        animation-delay: 0.2s;
+      }
+      .delay-300 {
+        animation-delay: 0.3s;
+      }
+      .delay-400 {
+        animation-delay: 0.4s;
+      }
+
+      /* Scroll-reveal */
+      [data-animate] {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      [data-animate].revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      [data-animate-left] {
+        opacity: 0;
+        transform: translateX(-30px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      [data-animate-left].revealed {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      [data-animate-scale] {
+        opacity: 0;
+        transform: scale(0.94);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      [data-animate-scale].revealed {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Nav */
+      #main-nav {
+        transition: box-shadow 0.3s ease;
+      }
+      #main-nav.scrolled {
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Neighborhood card */
+      .neighborhood-card {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .neighborhood-card img.card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(1) brightness(0.55);
+        transition:
+          filter 0.5s ease,
+          transform 0.5s ease;
+        display: block;
+      }
+      .neighborhood-card:hover img.card-img {
+        filter: grayscale(0.1) brightness(0.8);
+        transform: scale(1.04);
+      }
+      .neighborhood-card .label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        padding: 1.25rem 0.75rem;
+        color: #fff;
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-weight: 600;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      /* Property overlay card */
+      .property-overlay-card {
+        background: #2d2b2a;
+        color: #efeae6;
+        padding: 1.75rem 2rem;
+      }
+      .property-overlay-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cpath d='M400 0 Q200 150 0 300' stroke='rgba(255,255,255,0.06)' stroke-width='2' fill='none'/%3E%3C/svg%3E")
+          no-repeat center/cover;
+        pointer-events: none;
+      }
+
+      /* Testimonial card */
+      .testimonial-card {
+        background: #2d2b2a;
+        color: #efeae6;
+      }
+      .testimonial-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Cpath d='M800 0 Q400 300 0 600' stroke='rgba(255,255,255,0.05)' stroke-width='3' fill='none'/%3E%3C/svg%3E")
+          no-repeat center/cover;
+        pointer-events: none;
+      }
+
+      /* Stat tile */
+      .stat-tile {
+        background: #2d2b2a;
+        color: #efeae6;
+        padding: 1.75rem;
+      }
+      .stat-tile::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Cpath d='M300 0 Q150 100 0 200' stroke='rgba(255,255,255,0.05)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")
+          no-repeat center/cover;
+        pointer-events: none;
+      }
+
+      /* Form inputs */
+      .input-underline {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(224, 212, 201, 0.45);
+        color: #efeae6;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        padding: 0.65rem 0;
+        width: 100%;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+      .input-underline::placeholder {
+        color: rgba(239, 234, 230, 0.45);
+      }
+      .input-underline:focus {
+        border-color: #e0d4c9;
+      }
+      .input-underline-select {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(224, 212, 201, 0.45);
+        color: rgba(239, 234, 230, 0.65);
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        padding: 0.65rem 0;
+        width: 100%;
+        outline: none;
+        transition: border-color 0.3s ease;
+        appearance: none;
+        cursor: pointer;
+      }
+      .input-underline-select option {
+        background: #2d2b2a;
+        color: #efeae6;
+      }
+      .input-underline-select:focus {
+        border-color: #e0d4c9;
+        color: #efeae6;
+      }
+      .input-underline-area {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(224, 212, 201, 0.45);
+        color: #efeae6;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        padding: 0.65rem 0;
+        width: 100%;
+        outline: none;
+        resize: none;
+        transition: border-color 0.3s ease;
+        min-height: 80px;
+      }
+      .input-underline-area::placeholder {
+        color: rgba(239, 234, 230, 0.45);
+      }
+      .input-underline-area:focus {
+        border-color: #e0d4c9;
+      }
+
+      /* Slider dot */
+      .slider-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(239, 234, 230, 0.3);
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      .slider-dot.active {
+        background: #efeae6;
+      }
+
+      /* Social grid photo hover */
+      .social-grid-photo {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        filter: brightness(0.7) saturate(0.6);
+        transition: filter 0.4s ease;
+      }
+      .social-grid-photo:hover {
+        filter: brightness(0.9) saturate(1);
+      }
+
+      /* Section backgrounds */
+      #hero {
+        background:
+          linear-gradient(
+            135deg,
+            rgba(200, 130, 50, 0.09) 0%,
+            rgba(45, 43, 42, 0) 60%
+          ),
+          linear-gradient(rgba(45, 43, 42, 0.93), rgba(45, 43, 42, 0.93)),
+          url("../images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png")
+            center/cover no-repeat !important;
+      }
+      #services {
+        background: #efeae6 !important;
+      }
+      #listings {
+        background:
+          linear-gradient(
+            220deg,
+            rgba(45, 43, 42, 0.08) 0%,
+            rgba(224, 212, 201, 0) 60%
+          ),
+          linear-gradient(rgba(224, 212, 201, 0.93), rgba(224, 212, 201, 0.93)),
+          url("../images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_20%20PM%201.png")
+            center/cover no-repeat !important;
+      }
+      #about {
+        background: #2d2b2a !important;
+      }
+      #why {
+        background:
+          linear-gradient(
+            to top left,
+            rgba(140, 100, 60, 0.1) 0%,
+            rgba(239, 234, 230, 0) 70%
+          ),
+          linear-gradient(rgba(239, 234, 230, 0.93), rgba(239, 234, 230, 0.93)),
+          url("../images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_37%20PM%201.png")
+            center/cover no-repeat !important;
+      }
+      #communities {
+        background: #e0d4c9 !important;
+      }
+      #resources {
+        background:
+          linear-gradient(
+            to bottom,
+            rgba(200, 180, 150, 0.08) 0%,
+            rgba(120, 80, 40, 0.08) 100%
+          ),
+          linear-gradient(rgba(239, 234, 230, 0.93), rgba(239, 234, 230, 0.93)),
+          url("../images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png")
+            center/cover no-repeat !important;
+      }
+      #testimonials {
+        background: #2d2b2a !important;
+      }
+      #social {
+        background:
+          linear-gradient(
+            45deg,
+            rgba(80, 55, 35, 0.1) 0%,
+            rgba(224, 212, 201, 0.07) 100%
+          ),
+          linear-gradient(rgba(45, 43, 42, 0.93), rgba(45, 43, 42, 0.93)),
+          url("../images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean%201.png")
+            center/cover no-repeat !important;
+      }
+      #contact {
+        background: #2d2b2a !important;
+      }
+
+      /* Reel card */
+      .reel-card {
+        display: block;
+        flex: 1;
+        min-width: 220px;
+        max-width: 320px;
+        overflow: hidden;
+        position: relative;
+        aspect-ratio: 9/16;
+        max-height: 480px;
+        background: #1a1a1a;
+        text-decoration: none;
+      }
+      .reel-card video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .reel-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(0, 0, 0, 0);
+        transition: background 0.3s ease;
+        pointer-events: none;
+      }
+      .reel-overlay-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        transform: translateY(6px);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+      .reel-overlay-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(224, 212, 201, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .reel-overlay-icon svg {
+        width: 18px;
+        height: 18px;
+        fill: rgba(224, 212, 201, 0.9);
+        margin-left: 3px;
+      }
+      .reel-overlay-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(224, 212, 201, 0.85);
+        white-space: nowrap;
+        font-family: inherit;
+      }
+      .reel-card:hover .reel-overlay {
+        background: rgba(0, 0, 0, 0.48);
+      }
+      .reel-card:hover .reel-overlay-inner {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Mobile */
+      @media (max-width: 768px) {
+        #nav-links {
+          display: none;
+        }
+        #nav-links.open {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: #2d2b2a;
+          padding: 1.5rem 2rem;
+          z-index: 100;
+          border-top: 1px solid rgba(224, 212, 201, 0.1);
+        }
+        .hero-split {
+          flex-direction: column !important;
+        }
+        .hero-photo-panel {
+          display: none !important;
+        }
+        .about-split {
+          flex-direction: column !important;
+        }
+        .about-photo-panel {
+          display: none !important;
+        }
+        .services-grid {
+          flex-direction: column !important;
+        }
+        .listings-grid {
+          flex-direction: column !important;
+          padding-bottom: 0 !important;
+        }
+        .nbhd-row {
+          flex-direction: column !important;
+          height: auto !important;
+        }
+        .neighborhood-card {
+          height: 200px !important;
+          flex: none !important;
+          width: 100% !important;
+        }
+        .neighborhood-card .label {
+          writing-mode: horizontal-tb !important;
+          transform: none !important;
+          bottom: 1rem !important;
+          left: 1rem !important;
+        }
+        .resources-grid {
+          flex-direction: column !important;
+        }
+        .testimonial-split {
+          flex-direction: column !important;
+        }
+        .connect-grid {
+          grid-template-columns: 1fr !important;
+        }
+        .footer-top {
+          flex-direction: column !important;
+          gap: 2rem !important;
+        }
+        .footer-bottom {
+          flex-direction: column !important;
+          gap: 0.5rem !important;
+          text-align: center;
+        }
+        .why-split {
+          flex-direction: column !important;
+        }
+        .form-row {
+          flex-direction: column !important;
+        }
+        .communities-desc {
+          grid-template-columns: 1fr 1fr !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="font-sans bg-cream text-dark m-0">
+    <!-- ══════════════════════════════════
+     NAVIGATION
+══════════════════════════════════ -->
+    <nav
+      id="main-nav"
+      class="fixed top-0 left-0 right-0 z-50 bg-dark border-b border-sand/[0.08]"
+    >
+      <div
+        class="max-w-[1400px] mx-auto px-10 flex items-center justify-between h-[72px] relative"
+      >
+        <a href="#hero" class="no-underline shrink-0">
+          <div
+            class="font-display text-cream text-[1.1rem] font-black leading-none tracking-[0.02em]"
+          >
+            DEJONE WATTS
+          </div>
+          <div
+            class="text-[0.55rem] font-medium tracking-[0.22em] uppercase text-sand/[0.45] mt-0.5"
+          >
+            Real Broker · CA DRE #02247378
+          </div>
+        </a>
+
+        <div id="nav-links" class="flex gap-8 items-center">
+          <a
+            href="#hero"
+            class="text-[0.65rem] tracking-[0.12em] uppercase text-cream/[0.65] no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+            >Home</a
+          >
+          <a
+            href="#services"
+            class="text-[0.65rem] tracking-[0.12em] uppercase text-cream/[0.65] no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+            >Services</a
+          >
+          <a
+            href="#listings"
+            class="text-[0.65rem] tracking-[0.12em] uppercase text-cream/[0.65] no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+            >Buy</a
+          >
+          <a
+            href="#about"
+            class="text-[0.65rem] tracking-[0.12em] uppercase text-cream/[0.65] no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+            >About</a
+          >
+          <a
+            href="#communities"
+            class="text-[0.65rem] tracking-[0.12em] uppercase text-cream/[0.65] no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+            >Areas</a
+          >
+          <a
+            href="#contact"
+            class="text-[0.65rem] tracking-[0.12em] uppercase text-cream/[0.65] no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+            >Contact</a
+          >
+        </div>
+
+        <div class="flex items-center gap-5 shrink-0">
+          <a
+            href="tel:+15595551234"
+            id="nav-phone"
+            class="text-sand/50 text-[0.65rem] tracking-[0.1em] no-underline transition-colors duration-300 hover:text-sand"
+          >
+            559.555.1234
+          </a>
+          <a
+            href="#contact"
+            class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.65rem] font-semibold uppercase py-[0.55rem] px-5 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+          >
+            Schedule Consultation
+          </a>
+          <button
+            id="nav-toggle"
+            class="hidden bg-transparent border-0 cursor-pointer p-1"
+            aria-label="Toggle navigation"
+          >
+            <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+              <line
+                x1="0"
+                y1="1"
+                x2="22"
+                y2="1"
+                stroke="#EFEAE6"
+                stroke-width="1.5"
+              />
+              <line
+                x1="0"
+                y1="8"
+                x2="22"
+                y2="8"
+                stroke="#EFEAE6"
+                stroke-width="1.5"
+              />
+              <line
+                x1="0"
+                y1="15"
+                x2="22"
+                y2="15"
+                stroke="#EFEAE6"
+                stroke-width="1.5"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+    <section id="hero" class="bg-dark relative pt-24 flex flex-col">
+      <div class="absolute inset-0 bg-dark/50 z-10"></div>
+
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        class="absolute inset-0 w-full h-full object-cover object-center z-0 opacity-75"
+      >
+        <source
+          src="../images/Untitled_video_1_202606270124.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      <div
+        class="relative z-20 flex-1 flex flex-col items-center justify-center text-center w-full pt-20 pb-12 px-10 anim-fade-up"
+      >
+        <div
+          class="text-[0.65rem] tracking-[0.3em] uppercase text-sand/[0.55] font-semibold mb-7"
+        >
+          Fresno · Central Valley · Greater Sacramento
+        </div>
+        <h1
+          class="font-display text-cream text-[clamp(2.25rem,4.5vw,4rem)] font-black leading-none uppercase mb-8 max-w-[800px] [text-shadow:0_2px_30px_rgba(0,0,0,0.45)]"
+        >
+          Real Conversations.<br />Honest Guidance.<br />Your Next Move,
+          Protected.
+        </h1>
+        <div class="flex gap-4 flex-wrap justify-center">
+          <a
+            href="#contact"
+            class="inline-block bg-cream text-dark tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-colors duration-300 hover:bg-sand cursor-pointer no-underline"
+          >
+            Schedule a Private Consultation
+          </a>
+          <a
+            href="#listings"
+            class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+          >
+            Browse Fresno &amp; Central Valley Homes
+          </a>
+        </div>
+      </div>
+
+      <div
+        class="anim-bounce flex flex-col items-center gap-2 tracking-[0.2em] text-[0.6rem] uppercase text-cream/60 pb-10 self-center relative z-20"
+      >
+        <span>Scroll Down</span>
+        <svg
+          width="16"
+          height="20"
+          viewBox="0 0 16 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <polyline points="2,6 8,14 14,6" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     SERVICES
+══════════════════════════════════ -->
+    <section id="services" class="py-24 px-10">
+      <div class="max-w-[1400px] mx-auto">
+        <div class="section-eyebrow mb-6" data-animate>
+          <div>
+            <div
+              class="text-[0.65rem] tracking-[0.2em] uppercase text-dark/45 font-semibold mb-[0.4rem]"
+            >
+              Our Approach
+            </div>
+            <h2
+              class="font-display text-[clamp(2rem,4vw,3.25rem)] font-black uppercase leading-[0.95]"
+            >
+              How We Win Together
+            </h2>
+          </div>
+        </div>
+
+        <p
+          class="text-[0.875rem] leading-[1.85] text-dark/70 font-light max-w-[580px] mb-16"
+          data-animate
+        >
+          Whether you are stepping into your very first home or transitionally
+          selling a cherished family estate, you deserve real estate
+          representation that puts your peace of mind first. No high-pressure
+          sales tactics. Just strategic, relationship-driven advisory.
+        </p>
+
+        <div class="flex gap-12 services-grid">
+          <!-- Blurb 1 — Strategic Buyer -->
+          <div
+            class="flex-1 relative overflow-hidden p-9 border-l-[3px] border-sand/[0.35]"
+            style="
+              background:
+                linear-gradient(
+                  135deg,
+                  rgba(200, 130, 50, 0.12) 0%,
+                  rgba(45, 43, 42, 0) 60%
+                ),
+                linear-gradient(rgba(45, 43, 42, 0.91), rgba(45, 43, 42, 0.91)),
+                url(&quot;../images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_20%20PM%201.png&quot;)
+                  center/cover no-repeat;
+            "
+            data-animate
+          >
+            <div
+              class="w-8 h-8 border border-sand/30 flex items-center justify-center mb-5"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 12L7 2l5 10" stroke="#E0D4C9" stroke-width="1.2" />
+                <line
+                  x1="4"
+                  y1="8"
+                  x2="10"
+                  y2="8"
+                  stroke="#E0D4C9"
+                  stroke-width="1.2"
+                />
+              </svg>
+            </div>
+            <h4
+              class="text-[0.95rem] font-bold tracking-[0.08em] uppercase mb-4 text-cream"
+            >
+              Strategic Buyer Representation
+            </h4>
+            <p
+              class="text-[0.825rem] leading-[1.85] text-cream/65 font-light mb-7"
+            >
+              Finding a house is easy; securing the right financial asset for
+              your family takes strategy. From navigating regional market shifts
+              to negotiating clean, protective terms, I ensure you make an
+              investment you feel good about long after closing day.
+            </p>
+            <a
+              href="#contact"
+              class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+            >
+              Find Your Next Home
+            </a>
+          </div>
+
+          <!-- Blurb 2 — Premium Seller -->
+          <div
+            class="flex-1 relative overflow-hidden p-9 border-l-[3px] border-sand/[0.35]"
+            style="
+              background:
+                linear-gradient(
+                  to bottom right,
+                  rgba(224, 212, 201, 0.08) 0%,
+                  rgba(80, 50, 30, 0.14) 100%
+                ),
+                linear-gradient(rgba(45, 43, 42, 0.91), rgba(45, 43, 42, 0.91)),
+                url(&quot;../images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_15_15%20PM%201.png&quot;)
+                  center/cover no-repeat;
+            "
+            data-animate
+          >
+            <div
+              class="w-8 h-8 border border-sand/30 flex items-center justify-center mb-5"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <rect
+                  x="2"
+                  y="2"
+                  width="10"
+                  height="10"
+                  rx="0.5"
+                  stroke="#E0D4C9"
+                  stroke-width="1.2"
+                />
+                <line
+                  x1="2"
+                  y1="6"
+                  x2="12"
+                  y2="6"
+                  stroke="#E0D4C9"
+                  stroke-width="1.2"
+                />
+              </svg>
+            </div>
+            <h4
+              class="text-[0.95rem] font-bold tracking-[0.08em] uppercase mb-4 text-cream"
+            >
+              Premium Seller Advisory
+            </h4>
+            <p
+              class="text-[0.825rem] leading-[1.85] text-cream/65 font-light mb-7"
+            >
+              Selling a home in the $300k–$600k range requires precise regional
+              positioning and clear-eyed data. I highlight your property's
+              structural value to capture qualified buyers, maximizing your
+              equity while protecting your timeline.
+            </p>
+            <a
+              href="#contact"
+              class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+            >
+              Request a Market Valuation
+            </a>
+          </div>
+
+          <!-- Blurb 3 — Relocation -->
+          <div
+            class="flex-1 relative overflow-hidden p-9 border-l-[3px] border-sand/[0.35]"
+            style="
+              background:
+                linear-gradient(
+                  225deg,
+                  rgba(45, 43, 42, 0.1) 0%,
+                  rgba(200, 160, 100, 0.1) 100%
+                ),
+                linear-gradient(rgba(45, 43, 42, 0.91), rgba(45, 43, 42, 0.91)),
+                url(&quot;../images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean%201.png&quot;)
+                  center/cover no-repeat;
+            "
+            data-animate
+          >
+            <div
+              class="w-8 h-8 border border-sand/30 flex items-center justify-center mb-5"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <circle
+                  cx="7"
+                  cy="7"
+                  r="5"
+                  stroke="#E0D4C9"
+                  stroke-width="1.2"
+                />
+                <path d="M7 4v3l2 2" stroke="#E0D4C9" stroke-width="1.2" />
+              </svg>
+            </div>
+            <h4
+              class="text-[0.95rem] font-bold tracking-[0.08em] uppercase mb-4 text-cream"
+            >
+              Regional Relocation Support
+            </h4>
+            <p
+              class="text-[0.825rem] leading-[1.85] text-cream/65 font-light mb-7"
+            >
+              Moving between the Central Valley, the Bay Area, or Greater
+              Sacramento? Lean on a solo advisor who understands the unique
+              sub-market variables, commuting corridors, and community dynamics
+              of California's interior hubs.
+            </p>
+            <a
+              href="#contact"
+              class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+            >
+              Explore Relocation Services
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     FEATURED LISTINGS
+══════════════════════════════════ -->
+    <section id="listings" class="py-24 px-10">
+      <div class="max-w-[1400px] mx-auto">
+        <div class="flex items-start justify-between flex-wrap gap-6 mb-6">
+          <div class="section-eyebrow" data-animate>
+            <div>
+              <div
+                class="text-[0.65rem] tracking-[0.2em] uppercase text-dark/45 font-semibold mb-[0.4rem]"
+              >
+                Featured
+              </div>
+              <h2
+                class="font-display text-[clamp(2rem,4vw,3.25rem)] font-black uppercase leading-[0.95]"
+              >
+                Properties
+              </h2>
+            </div>
+          </div>
+          <a
+            href="#contact"
+            class="inline-block bg-dark text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-colors duration-300 hover:bg-[#4a4745] cursor-pointer no-underline self-center"
+            data-animate
+          >
+            View All Active Listings
+          </a>
+        </div>
+
+        <p
+          class="text-[0.875rem] leading-[1.85] text-dark/65 font-light max-w-[540px] mb-16"
+          data-animate
+        >
+          Explore handpicked homes and mid-to-upper-tier residential
+          opportunities currently available across Fresno and the Central
+          Valley.
+        </p>
+
+        <div class="flex gap-8 pb-14 listings-grid">
+          <!-- Card 1 -->
+          <div class="flex-1 relative" data-animate-scale>
+            <img
+              src="../images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
+              alt="Modern Fresno home interior"
+              class="w-full h-[280px] object-cover block"
+            />
+            <div
+              class="property-overlay-card absolute bottom-[-2rem] left-[-0.75rem] w-[82%] max-w-[300px]"
+            >
+              <div
+                class="text-[0.6rem] text-sand/50 tracking-[0.15em] uppercase mb-2"
+              >
+                For Sale · $485,000
+              </div>
+              <h5
+                class="text-cream text-[0.9rem] font-bold tracking-[0.05em] uppercase leading-[1.3] mb-5"
+              >
+                4 BD / 2 BA<br />Fresno, CA 93720
+              </h5>
+              <a
+                href="#contact"
+                class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.65rem] font-semibold uppercase py-[0.65rem] px-5 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+              >
+                View Details
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flex-1 relative" data-animate-scale>
+            <img
+              src="../images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
+              alt="Mid-century Sacramento home"
+              class="w-full h-[280px] object-cover block"
+            />
+            <div
+              class="property-overlay-card absolute bottom-[-2rem] left-[-0.75rem] w-[82%] max-w-[300px]"
+            >
+              <div
+                class="text-[0.6rem] text-sand/50 tracking-[0.15em] uppercase mb-2"
+              >
+                For Sale · $379,000
+              </div>
+              <h5
+                class="text-cream text-[0.9rem] font-bold tracking-[0.05em] uppercase leading-[1.3] mb-5"
+              >
+                3 BD / 2 BA<br />Clovis, CA 93611
+              </h5>
+              <a
+                href="#contact"
+                class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.65rem] font-semibold uppercase py-[0.65rem] px-5 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+              >
+                View Details
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="flex-1 relative" data-animate-scale>
+            <img
+              src="../images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
+              alt="Dramatic Sacramento premium home"
+              class="w-full h-[280px] object-cover block"
+            />
+            <div
+              class="property-overlay-card absolute bottom-[-2rem] left-[-0.75rem] w-[82%] max-w-[300px]"
+            >
+              <div
+                class="text-[0.6rem] text-sand/50 tracking-[0.15em] uppercase mb-2"
+              >
+                For Sale · $549,000
+              </div>
+              <h5
+                class="text-cream text-[0.9rem] font-bold tracking-[0.05em] uppercase leading-[1.3] mb-5"
+              >
+                5 BD / 3 BA<br />Sacramento, CA 95831
+              </h5>
+              <a
+                href="#contact"
+                class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.65rem] font-semibold uppercase py-[0.65rem] px-5 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+              >
+                View Details
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     ABOUT
+══════════════════════════════════ -->
+    <section id="about" class="py-24 px-10 relative overflow-hidden">
+      <div class="deco-line">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="none">
+          <path
+            d="M0 0 Q720 450 1440 900"
+            stroke="rgba(224,212,201,0.06)"
+            stroke-width="3"
+            fill="none"
+          />
+          <path
+            d="M0 200 Q720 550 1440 700"
+            stroke="rgba(224,212,201,0.03)"
+            stroke-width="2"
+            fill="none"
+          />
+        </svg>
+      </div>
+
+      <div class="max-w-[1400px] mx-auto flex gap-20 items-center about-split">
+        <!-- Photo -->
+        <div
+          class="about-photo-panel shrink-0 basis-[38%] h-[580px] overflow-hidden"
+          data-animate-scale
+        >
+          <img
+            src="../images/headshot.png"
+            alt="Bright premium interior"
+            class="w-full h-full object-cover object-top"
+          />
+        </div>
+
+        <!-- Text -->
+        <div class="flex-1" data-animate>
+          <div class="border-l-[3px] border-sand/50 pl-6 mb-10">
+            <div
+              class="text-[0.65rem] tracking-[0.2em] uppercase text-sand/45 font-semibold mb-2"
+            >
+              Meet
+            </div>
+            <h2
+              class="font-display text-cream text-[clamp(2rem,4vw,3.25rem)] font-black uppercase leading-[0.95] mb-2"
+            >
+              DeJone Watts
+            </h2>
+            <div
+              class="text-[0.8rem] font-normal tracking-[0.12em] uppercase text-sand/50"
+            >
+              Faith-Forward Guidance. Fiduciary Excellence.
+            </div>
+          </div>
+
+          <p
+            class="text-[0.875rem] leading-[1.9] text-cream/70 font-light mb-5"
+          >
+            When you work with me, you get real conversations, honest guidance,
+            respect for your goals, faith through the process, and yes—we'll
+            have some fun too.
+          </p>
+          <p
+            class="text-[0.875rem] leading-[1.9] text-cream/70 font-light mb-5"
+          >
+            I don't view real estate as a high-volume numbers game or a series
+            of quick transactions. As an independent solo advisor backed by the
+            modern, tech-forward network of Real Broker, my focus is entirely on
+            protecting your best interests.
+          </p>
+          <p
+            class="text-[0.875rem] leading-[1.9] text-cream/70 font-light mb-10"
+          >
+            Real estate transactions involve high stakes and deeply personal
+            transitions. That is why I anchor my business in transparency and
+            direct, uncompromised communication — guarding you from costly
+            missteps and helping you make structural decisions with absolute
+            confidence.
+          </p>
+
+          <a
+            href="#contact"
+            class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+          >
+            Read My Full Story
+          </a>
+        </div>
+      </div>
+
+      <!-- Instagram Reels -->
+      <div
+        class="w-full max-w-[1400px] mx-auto flex gap-6 mt-16 justify-between flex-wrap"
+        data-animate
+      >
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener"
+          class="reel-card"
+        >
+          <video
+            src="../images/reel-1.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+          ></video>
+          <div class="reel-overlay">
+            <div class="reel-overlay-inner">
+              <div class="reel-overlay-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <span class="reel-overlay-label">Watch on Instagram</span>
+            </div>
+          </div>
+        </a>
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener"
+          class="reel-card"
+        >
+          <video
+            src="../images/reel-2.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+          ></video>
+          <div class="reel-overlay">
+            <div class="reel-overlay-inner">
+              <div class="reel-overlay-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <span class="reel-overlay-label">Watch on Instagram</span>
+            </div>
+          </div>
+        </a>
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener"
+          class="reel-card"
+        >
+          <video
+            src="../images/reel-3.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+          ></video>
+          <div class="reel-overlay">
+            <div class="reel-overlay-inner">
+              <div class="reel-overlay-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <span class="reel-overlay-label">Watch on Instagram</span>
+            </div>
+          </div>
+        </a>
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener"
+          class="reel-card"
+        >
+          <video
+            src="../images/reel-4.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+          ></video>
+          <div class="reel-overlay">
+            <div class="reel-overlay-inner">
+              <div class="reel-overlay-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <span class="reel-overlay-label">Watch on Instagram</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="w-full max-w-[1400px] mx-auto flex justify-center mt-10">
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 bg-dark text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-colors duration-300 hover:bg-[#4a4745] no-underline"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+            />
+          </svg>
+          Follow on Instagram
+        </a>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     WHY CHOOSE ME / STATS
+══════════════════════════════════ -->
+    <section id="why" class="py-24 px-10">
+      <div class="max-w-[1400px] mx-auto">
+        <div class="section-eyebrow mb-6" data-animate>
+          <div>
+            <div
+              class="text-[0.65rem] tracking-[0.2em] uppercase text-dark/45 font-semibold mb-[0.4rem]"
+            >
+              The Framework
+            </div>
+            <h2
+              class="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-black uppercase leading-[0.95]"
+            >
+              A Grounded Approach to<br />High-Stakes Decisions
+            </h2>
+          </div>
+        </div>
+        <p
+          class="text-[0.875rem] leading-[1.85] text-dark/65 font-light max-w-[520px] mb-16"
+          data-animate
+        >
+          Real estate shouldn't feel like a high-pressure sales pitch. Here is
+          the framework I bring to every client partnership:
+        </p>
+
+        <div class="flex gap-16 why-split">
+          <!-- Left: principles -->
+          <div class="flex-1 flex flex-col gap-10" data-animate>
+            <div class="flex gap-5 items-start">
+              <div class="w-0.5 h-12 bg-dark shrink-0 mt-1"></div>
+              <div>
+                <div
+                  class="text-[0.8rem] font-bold tracking-[0.08em] uppercase mb-2"
+                >
+                  Radical Transparency
+                </div>
+                <p
+                  class="text-[0.825rem] leading-[1.8] text-dark/65 font-light"
+                >
+                  You get clear, unfiltered data and honest feedback so you can
+                  make highly informed choices — every single time.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-5 items-start">
+              <div class="w-0.5 h-12 bg-dark shrink-0 mt-1"></div>
+              <div>
+                <div
+                  class="text-[0.8rem] font-bold tracking-[0.08em] uppercase mb-2"
+                >
+                  Unwavering Protection
+                </div>
+                <p
+                  class="text-[0.825rem] leading-[1.8] text-dark/65 font-light"
+                >
+                  As a solo practitioner, your financial and legal best
+                  interests are guarded directly by me at every single
+                  milestone.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-5 items-start">
+              <div class="w-0.5 h-12 bg-dark shrink-0 mt-1"></div>
+              <div>
+                <div
+                  class="text-[0.8rem] font-bold tracking-[0.08em] uppercase mb-2"
+                >
+                  Faith &amp; Integrity
+                </div>
+                <p
+                  class="text-[0.825rem] leading-[1.8] text-dark/65 font-light"
+                >
+                  Every contract, negotiation, and client interaction is
+                  executed with a grounded, ethical standard you can lean on.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: stat tiles -->
+          <div class="flex-1 flex flex-col gap-4" data-animate>
+            <div class="stat-tile relative overflow-hidden">
+              <div
+                class="text-[0.6rem] tracking-[0.2em] uppercase text-sand/45 mb-2"
+              >
+                Direct Access
+              </div>
+              <div
+                class="font-display text-[1.75rem] font-black text-cream mb-2"
+              >
+                100%
+              </div>
+              <div
+                class="text-[0.78rem] font-semibold tracking-[0.06em] uppercase text-sand/80"
+              >
+                Direct Service
+              </div>
+              <p
+                class="text-[0.75rem] text-cream/55 font-light mt-2 leading-[1.6]"
+              >
+                You work exclusively with me — never a junior assistant or a
+                hand-off coordinator.
+              </p>
+            </div>
+            <div class="stat-tile relative overflow-hidden">
+              <div
+                class="text-[0.6rem] tracking-[0.2em] uppercase text-sand/45 mb-2"
+              >
+                Specialized Range
+              </div>
+              <div
+                class="font-display text-[1.75rem] font-black text-cream mb-2"
+              >
+                $300k–$600k
+              </div>
+              <div
+                class="text-[0.78rem] font-semibold tracking-[0.06em] uppercase text-sand/80"
+              >
+                Regional Expertise
+              </div>
+              <p
+                class="text-[0.75rem] text-cream/55 font-light mt-2 leading-[1.6]"
+              >
+                Centered precisely on the sweet spot of Central Valley and
+                Northern California property values.
+              </p>
+            </div>
+            <div class="stat-tile relative overflow-hidden">
+              <div
+                class="text-[0.6rem] tracking-[0.2em] uppercase text-sand/45 mb-2"
+              >
+                Network Power
+              </div>
+              <div
+                class="font-display text-[1.75rem] font-black text-cream mb-2"
+              >
+                Real Broker
+              </div>
+              <div
+                class="text-[0.78rem] font-semibold tracking-[0.06em] uppercase text-sand/80"
+              >
+                Connected Network
+              </div>
+              <p
+                class="text-[0.75rem] text-cream/55 font-light mt-2 leading-[1.6]"
+              >
+                National cutting-edge tech and data infrastructure straight to
+                your local search.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     COMMUNITIES
+══════════════════════════════════ -->
+    <section id="communities" class="py-24 px-10">
+      <div class="max-w-[1400px] mx-auto">
+        <div class="flex items-start justify-between flex-wrap gap-6 mb-16">
+          <div class="section-eyebrow" data-animate>
+            <div>
+              <div
+                class="text-[0.65rem] tracking-[0.2em] uppercase text-dark/45 font-semibold mb-[0.4rem]"
+              >
+                Areas Served
+              </div>
+              <h2
+                class="font-display text-[clamp(1.75rem,3.5vw,3rem)] font-black uppercase leading-[0.95]"
+              >
+                The Corridors<br />We Call Home
+              </h2>
+              <p
+                class="text-[0.8rem] text-dark/55 font-light mt-3 tracking-[0.03em]"
+              >
+                Deep geographic reach across California's Central Valley and
+                interior Northern hubs.
+              </p>
+            </div>
+          </div>
+          <a
+            href="#contact"
+            class="inline-block bg-dark text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-colors duration-300 hover:bg-[#4a4745] cursor-pointer no-underline self-center"
+            data-animate
+          >
+            Explore Local Neighborhood Guides
+          </a>
+        </div>
+
+        <!-- Neighborhood cards -->
+        <div class="flex gap-1 h-[400px] nbhd-row" data-animate>
+          <div class="neighborhood-card flex-1">
+            <img
+              class="card-img absolute inset-0 w-full h-full object-cover"
+              src="../images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean 1.png"
+              alt="Fresno neighborhood"
+            />
+            <div class="label">Fresno, CA</div>
+          </div>
+          <div class="neighborhood-card flex-1">
+            <img
+              class="card-img absolute inset-0 w-full h-full object-cover"
+              src="../images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
+              alt="Greater Sacramento"
+            />
+            <div class="label">Greater Sacramento</div>
+          </div>
+          <div class="neighborhood-card flex-1">
+            <img
+              class="card-img absolute inset-0 w-full h-full object-cover"
+              src="../images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
+              alt="Modesto and Stockton"
+            />
+            <div class="label">Modesto &amp; Stockton</div>
+          </div>
+          <div class="neighborhood-card flex-1">
+            <img
+              class="card-img absolute inset-0 w-full h-full object-cover"
+              src="../images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
+              alt="Coalinga and Central Valley"
+            />
+            <div class="label">Coalinga &amp; Central Valley</div>
+          </div>
+        </div>
+
+        <!-- Descriptions -->
+        <div class="grid grid-cols-4 gap-8 mt-8 communities-desc">
+          <div data-animate>
+            <div
+              class="text-[0.75rem] font-bold tracking-[0.1em] uppercase mb-2"
+            >
+              Fresno
+            </div>
+            <p class="text-[0.78rem] leading-[1.75] text-dark/65 font-light">
+              Our vibrant, central home base. From established family
+              neighborhoods to premium suburban residential pockets.
+            </p>
+          </div>
+          <div data-animate>
+            <div
+              class="text-[0.75rem] font-bold tracking-[0.1em] uppercase mb-2"
+            >
+              Greater Sacramento
+            </div>
+            <p class="text-[0.78rem] leading-[1.75] text-dark/65 font-light">
+              Navigating dynamic neighborhoods and growing master-planned
+              communities of the state capital metro.
+            </p>
+          </div>
+          <div data-animate>
+            <div
+              class="text-[0.75rem] font-bold tracking-[0.1em] uppercase mb-2"
+            >
+              Modesto &amp; Stockton
+            </div>
+            <p class="text-[0.78rem] leading-[1.75] text-dark/65 font-light">
+              Assisting families and commuter buyers across the key economic and
+              residential hubs of the Northern Central Valley.
+            </p>
+          </div>
+          <div data-animate>
+            <div
+              class="text-[0.75rem] font-bold tracking-[0.1em] uppercase mb-2"
+            >
+              Coalinga &amp; Corridors
+            </div>
+            <p class="text-[0.78rem] leading-[1.75] text-dark/65 font-light">
+              Providing dedicated, trusted real estate representation to the
+              tightly knit interior agricultural and commuter enclaves.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     GUIDES & RESOURCES
+══════════════════════════════════ -->
+    <section id="resources" class="py-24 px-10">
+      <div class="max-w-[1400px] mx-auto">
+        <div class="section-eyebrow mb-16" data-animate>
+          <div>
+            <div
+              class="text-[0.65rem] tracking-[0.2em] uppercase text-dark/45 font-semibold mb-[0.4rem]"
+            >
+              Free Resources
+            </div>
+            <h2
+              class="font-display text-[clamp(1.75rem,3.5vw,3rem)] font-black uppercase leading-[0.95]"
+            >
+              Preparedness Over Hype
+            </h2>
+            <p
+              class="text-[0.825rem] text-dark/55 font-light mt-3 max-w-[440px] leading-[1.75]"
+            >
+              Equipping you with the strategies, data, and step-by-step
+              realities of buying and selling in today's landscape.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-8 resources-grid">
+          <!-- Card 1 -->
+          <div
+            class="flex-1 min-h-[320px] text-cream p-10 relative overflow-hidden"
+            data-animate-scale
+          >
+            <img
+              src="../images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png"
+              alt=""
+              aria-hidden="true"
+              class="absolute inset-0 object-cover w-full h-full brightness-[0.25] saturate-[0.3]"
+            />
+            <div class="relative z-[1]">
+              <div
+                class="text-[0.6rem] tracking-[0.2em] uppercase text-sand/50 mb-4"
+              >
+                Buyer's Guide
+              </div>
+              <h3
+                class="font-display text-[1.4rem] font-bold uppercase text-cream leading-[1.1] mb-5"
+              >
+                The Central Valley<br />Homebuyer's Playbook
+              </h3>
+              <p
+                class="text-[0.825rem] leading-[1.8] text-cream/70 font-light mb-8"
+              >
+                Learn how to successfully position your offer, navigate interest
+                rates, and locate pocket value in the current $300k–$600k
+                regional market.
+              </p>
+              <a
+                href="#contact"
+                class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+              >
+                Download the Guide
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class="flex-1 min-h-[320px] text-cream p-10 relative overflow-hidden"
+            data-animate-scale
+          >
+            <img
+              src="../images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
+              alt=""
+              aria-hidden="true"
+              class="absolute inset-0 object-cover w-full h-full brightness-[0.25] saturate-[0.3]"
+            />
+            <div class="relative z-[1]">
+              <div
+                class="text-[0.6rem] tracking-[0.2em] uppercase text-sand/50 mb-4"
+              >
+                Seller's Guide
+              </div>
+              <h3
+                class="font-display text-[1.4rem] font-bold uppercase text-cream leading-[1.1] mb-5"
+              >
+                The Equity Protection<br />Selling Guide
+              </h3>
+              <p
+                class="text-[0.825rem] leading-[1.8] text-cream/70 font-light mb-8"
+              >
+                A straightforward breakdown of modern pricing strategies,
+                preparation steps, and contract contingencies required to
+                maximize your net returns.
+              </p>
+              <a
+                href="#contact"
+                class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+              >
+                Download the Guide
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════ -->
+    <section id="testimonials" class="py-24 px-10 relative overflow-hidden">
+      <div class="deco-line">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="none">
+          <path
+            d="M1440 900 Q720 450 0 0"
+            stroke="rgba(224,212,201,0.06)"
+            stroke-width="3"
+            fill="none"
+          />
+        </svg>
+      </div>
+      <div class="max-w-[1400px] mx-auto">
+        <div class="flex items-start justify-between flex-wrap gap-6 mb-16">
+          <div class="section-eyebrow section-eyebrow-light" data-animate>
+            <div>
+              <div
+                class="text-[0.65rem] tracking-[0.2em] uppercase text-sand/40 font-semibold mb-[0.4rem]"
+              >
+                Client Stories
+              </div>
+              <h2
+                class="font-display text-[clamp(2rem,4vw,3.25rem)] font-black uppercase leading-[0.95] text-cream"
+              >
+                What My<br />Clients Say
+              </h2>
+              <p class="text-[0.8rem] text-sand/45 font-light mt-3">
+                Real feedback from real people who value trust and clarity over
+                transactional volume.
+              </p>
+            </div>
+          </div>
+          <div class="flex gap-1 self-end">
+            <div
+              id="test-prev"
+              class="w-9 h-9 border border-sand/30 flex items-center justify-center cursor-pointer transition-all duration-300 text-[0.9rem] text-sand/70 hover:bg-sand/[0.15] hover:border-sand hover:text-cream"
+            >
+              &#8249;
+            </div>
+            <div
+              id="test-next"
+              class="w-9 h-9 border border-sand/30 flex items-center justify-center cursor-pointer transition-all duration-300 text-[0.9rem] text-sand/70 hover:bg-sand/[0.15] hover:border-sand hover:text-cream"
+            >
+              &#8250;
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="flex gap-8 items-stretch relative testimonial-split"
+          data-animate
+        >
+          <!-- Photo -->
+          <div class="shrink-0 basis-[38%] overflow-hidden">
+            <img
+              id="test-photo"
+              src="../images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png"
+              alt="Client home"
+              class="w-full h-[380px] object-cover block transition-opacity duration-[0.4s]"
+            />
+          </div>
+          <!-- Card -->
+          <div
+            class="testimonial-card flex-1 p-12 px-10 flex flex-col justify-between -mt-8 -ml-8 relative z-10 overflow-hidden"
+          >
+            <div>
+              <div
+                class="text-[0.6rem] tracking-[0.2em] uppercase text-sand/40 mb-6"
+              >
+                Testimonials
+              </div>
+              <div class="text-[3rem] text-sand leading-none mb-4">"</div>
+              <p
+                id="test-body"
+                class="text-[0.875rem] leading-[1.85] text-cream/80 font-light mb-8 transition-opacity duration-[0.4s]"
+              >
+                DeJone completely changed how we view real estate agents. There
+                was zero pressure, absolute transparency, and he treated our
+                budget with the utmost respect. We felt protected every step of
+                the way.
+              </p>
+            </div>
+            <div>
+              <div
+                id="test-name"
+                class="text-[0.8rem] font-bold tracking-[0.12em] uppercase text-cream"
+              >
+                Past Client
+              </div>
+              <div
+                id="test-loc"
+                class="text-[0.7rem] tracking-[0.1em] uppercase text-sand/40 mt-1"
+              >
+                Fresno, CA
+              </div>
+              <div class="flex gap-2 mt-6">
+                <div
+                  class="slider-dot active"
+                  id="dot-0"
+                  onclick="setTestimonial(0)"
+                ></div>
+                <div
+                  class="slider-dot"
+                  id="dot-1"
+                  onclick="setTestimonial(1)"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     SOCIAL CONNECT
+══════════════════════════════════ -->
+    <section id="social" class="py-24">
+      <div class="max-w-[1200px] mx-auto">
+        <div class="flex items-center">
+          <!-- CTA panel -->
+          <div
+            class="flex-1 bg-[#1e1c1b] py-16 px-12 relative overflow-hidden z-10"
+          >
+            <div class="deco-line">
+              <svg viewBox="0 0 600 500" preserveAspectRatio="none">
+                <path
+                  d="M600 0 Q300 250 0 500"
+                  stroke="rgba(224,212,201,0.05)"
+                  stroke-width="2"
+                  fill="none"
+                />
+              </svg>
+            </div>
+            <div class="border-l-[3px] border-sand/50 pl-6 mb-8" data-animate>
+              <div
+                class="text-[0.6rem] tracking-[0.22em] uppercase text-sand/40 font-semibold mb-[0.4rem]"
+              >
+                Follow the Journey
+              </div>
+              <h3
+                class="font-display text-cream text-[2rem] font-black uppercase leading-[0.95]"
+              >
+                Connect<br />With Us
+              </h3>
+              <p
+                class="text-[0.8rem] text-sand/50 font-light mt-3 leading-[1.75]"
+              >
+                Connect with @DeJoneWatts for daily regional market insights,
+                behind-the-scenes advice, and a little bit of fun in Fresno, CA.
+              </p>
+            </div>
+
+            <div class="flex gap-3 mb-10" data-animate>
+              <a
+                href="#"
+                aria-label="Facebook"
+                class="w-10 h-10 rounded-full border border-white/[0.35] flex items-center justify-center text-white text-[0.75rem] cursor-pointer transition-all duration-300 no-underline hover:bg-white/[0.15] hover:border-white"
+              >
+                <svg
+                  width="10"
+                  height="16"
+                  viewBox="0 0 10 16"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M6.5 5.5V3.5c0-.55.45-1 1-1h1V0H7c-1.66 0-3 1.34-3 3v2.5H2V8h2v8h2.5V8H9l.5-2.5H6.5z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="#"
+                aria-label="Instagram"
+                class="w-10 h-10 rounded-full border border-white/[0.35] flex items-center justify-center text-white text-[0.75rem] cursor-pointer transition-all duration-300 no-underline hover:bg-white/[0.15] hover:border-white"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                >
+                  <rect x="2" y="2" width="12" height="12" rx="3" />
+                  <circle cx="8" cy="8" r="3" />
+                  <circle cx="11.5" cy="4.5" r="0.5" fill="currentColor" />
+                </svg>
+              </a>
+              <a
+                href="#"
+                aria-label="LinkedIn"
+                class="w-10 h-10 rounded-full border border-white/[0.35] flex items-center justify-center text-white text-[0.75rem] cursor-pointer transition-all duration-300 no-underline hover:bg-white/[0.15] hover:border-white"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M2 4h2v8H2zM3 3a1 1 0 100-2 1 1 0 000 2zM6 4h1.9v1.1h.03C8.26 4.42 9.1 4 10.1 4 12.2 4 12.5 5.3 12.5 7.1V12h-2V7.5c0-.85-.02-1.95-1.19-1.95-1.18 0-1.36.92-1.36 1.88V12H6V4z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="#"
+                aria-label="YouTube"
+                class="w-10 h-10 rounded-full border border-white/[0.35] flex items-center justify-center text-white text-[0.75rem] cursor-pointer transition-all duration-300 no-underline hover:bg-white/[0.15] hover:border-white"
+              >
+                <svg
+                  width="16"
+                  height="12"
+                  viewBox="0 0 16 12"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M14.5 1.5c-.4-.4-1-.6-1.4-.7C11.7.5 8 .5 8 .5s-3.7 0-5.1.3c-.4.1-1 .3-1.4.7C1.1 1.9 1 3.5 1 6s.1 4.1.5 4.5c.4.4 1 .6 1.4.7C4.3 11.5 8 11.5 8 11.5s3.7 0 5.1-.3c.4-.1 1-.3 1.4-.7.4-.4.5-2 .5-4.5s-.1-4.1-.5-4.5zM6.5 8.5v-5l4 2.5-4 2.5z"
+                  />
+                </svg>
+              </a>
+            </div>
+
+            <div data-animate>
+              <input
+                class="input-underline mb-4"
+                type="email"
+                placeholder="Enter Email Address"
+                id="newsletter-email"
+              />
+              <button
+                class="inline-block bg-dark text-cream tracking-[0.15em] text-[0.75rem] font-semibold uppercase py-[0.85rem] px-8 transition-colors duration-300 hover:bg-[#4a4745] cursor-pointer w-full text-center"
+                onclick="handleNewsletter()"
+              >
+                Join the Newsletter
+              </button>
+              <div
+                id="newsletter-msg"
+                class="hidden text-[0.75rem] text-sand mt-3 tracking-[0.08em]"
+              >
+                Thank you for subscribing!
+              </div>
+            </div>
+          </div>
+
+          <!-- Instagram-style photo grid -->
+          <div class="grid grid-cols-2 gap-0.5 z-0 -ml-40 max-w-[500px]">
+            <img
+              src="../images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
+              alt="Interior 1"
+              class="social-grid-photo"
+            />
+            <img
+              src="../images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png"
+              alt="Interior 2"
+              class="social-grid-photo"
+            />
+            <img
+              src="../images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
+              alt="Interior 3"
+              class="social-grid-photo"
+            />
+            <img
+              src="../images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean 1.png"
+              alt="Interior 4"
+              class="social-grid-photo"
+            />
+            <img
+              src="../images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
+              alt="Interior 5"
+              class="social-grid-photo"
+            />
+            <img
+              src="../images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean 1.png"
+              alt="Interior 6"
+              class="social-grid-photo"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     CONTACT FORM
+══════════════════════════════════ -->
+    <section id="contact" class="py-24 px-10 relative overflow-hidden">
+      <div class="deco-line">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="none">
+          <path
+            d="M0 900 Q720 450 1440 0"
+            stroke="rgba(224,212,201,0.07)"
+            stroke-width="3"
+            fill="none"
+          />
+          <path
+            d="M0 700 Q720 300 1440 200"
+            stroke="rgba(224,212,201,0.04)"
+            stroke-width="2"
+            fill="none"
+          />
+        </svg>
+      </div>
+      <div class="max-w-[900px] mx-auto">
+        <div class="section-eyebrow section-eyebrow-light mb-6" data-animate>
+          <div>
+            <div
+              class="text-[0.65rem] tracking-[0.2em] uppercase text-sand/40 font-semibold mb-[0.4rem]"
+            >
+              Get in Touch
+            </div>
+            <h2
+              class="font-display text-[clamp(2rem,4vw,3.25rem)] font-black uppercase leading-[0.95] text-cream"
+            >
+              Let's Start a<br />Real Conversation
+            </h2>
+          </div>
+        </div>
+        <p
+          class="text-[0.875rem] leading-[1.85] text-cream/55 font-light max-w-[500px] mb-14"
+          data-animate
+        >
+          Ready to plan your next move with a trusted advisor? Fill out the
+          brief form below, and I will reach out directly to schedule a private,
+          low-pressure consultation.
+        </p>
+
+        <form id="contact-form" data-animate>
+          <div class="flex gap-8 mb-8 form-row">
+            <div class="flex-1">
+              <input
+                class="input-underline"
+                type="text"
+                placeholder="First &amp; Last Name"
+                required
+              />
+            </div>
+            <div class="flex-1">
+              <input
+                class="input-underline"
+                type="email"
+                placeholder="Email Address"
+                required
+              />
+            </div>
+            <div class="flex-1">
+              <input
+                class="input-underline"
+                type="tel"
+                placeholder="Phone Number"
+              />
+            </div>
+          </div>
+          <div class="flex gap-8 mb-8 form-row">
+            <div class="flex-1 relative">
+              <select class="input-underline-select" required>
+                <option value="" disabled selected>I am looking to...</option>
+                <option value="buy">Buy a Home</option>
+                <option value="sell">Sell a Home</option>
+                <option value="relocate">Relocate</option>
+                <option value="inquiry">General Inquiry</option>
+              </select>
+              <svg
+                class="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none"
+                width="10"
+                height="6"
+                viewBox="0 0 10 6"
+                fill="none"
+              >
+                <path
+                  d="M1 1l4 4 4-4"
+                  stroke="rgba(224,212,201,0.5)"
+                  stroke-width="1.2"
+                />
+              </svg>
+            </div>
+            <div class="flex-[2]">
+              <input
+                class="input-underline"
+                type="text"
+                placeholder="Primary Neighborhood of Interest"
+              />
+            </div>
+          </div>
+          <div class="mb-10">
+            <textarea
+              class="input-underline-area"
+              placeholder="How can I best support your real estate goals?"
+            ></textarea>
+          </div>
+
+          <div
+            id="form-success"
+            class="hidden bg-sand/[0.1] border border-sand/30 px-6 py-5 mb-8"
+          >
+            <div
+              class="text-[0.8rem] font-semibold tracking-[0.1em] uppercase text-sand mb-1"
+            >
+              Message Received
+            </div>
+            <div class="text-[0.8rem] text-cream/65 font-light">
+              Thank you for reaching out. I will be in touch within 24 hours to
+              schedule your private consultation.
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="inline-block bg-cream text-dark tracking-[0.15em] text-[0.8rem] font-semibold uppercase py-[0.85rem] px-8 transition-colors duration-300 hover:bg-sand cursor-pointer w-full text-center"
+          >
+            Submit Consultation Request
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+    <footer class="bg-[#1e1c1b] pt-16 pb-8 px-10 border-t border-sand/[0.08]">
+      <div class="max-w-[1400px] mx-auto">
+        <div
+          class="flex items-start justify-between mb-12 pb-8 border-b border-sand/[0.08] footer-top"
+        >
+          <div>
+            <div
+              class="font-display text-cream text-[1.25rem] font-black tracking-[0.02em] mb-2"
+            >
+              DEJONE WATTS
+            </div>
+            <div class="text-[0.6rem] tracking-[0.18em] uppercase text-sand/35">
+              Real Broker · CA DRE #02247378
+            </div>
+            <div
+              class="text-[0.75rem] text-sand/50 font-light mt-4 leading-[1.7]"
+            >
+              Fresno, CA · Central Valley<br />Greater Sacramento Region
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <div
+              class="text-[0.6rem] tracking-[0.2em] uppercase text-sand/35 mb-1"
+            >
+              Navigation
+            </div>
+            <a
+              href="#services"
+              class="text-[0.65rem] tracking-[0.12em] uppercase text-sand/50 no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+              >Services</a
+            >
+            <a
+              href="#listings"
+              class="text-[0.65rem] tracking-[0.12em] uppercase text-sand/50 no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+              >Featured Listings</a
+            >
+            <a
+              href="#about"
+              class="text-[0.65rem] tracking-[0.12em] uppercase text-sand/50 no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+              >About DeJone</a
+            >
+            <a
+              href="#communities"
+              class="text-[0.65rem] tracking-[0.12em] uppercase text-sand/50 no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+              >Areas Served</a
+            >
+            <a
+              href="#contact"
+              class="text-[0.65rem] tracking-[0.12em] uppercase text-sand/50 no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
+              >Contact</a
+            >
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <div
+              class="text-[0.6rem] tracking-[0.2em] uppercase text-sand/35 mb-1"
+            >
+              Contact
+            </div>
+            <div class="text-[0.78rem] text-sand/55 font-light">
+              559.555.1234
+            </div>
+            <div class="text-[0.78rem] text-sand/55 font-light">
+              dejone@realbroker.com
+            </div>
+            <div class="text-[0.78rem] text-sand/55 font-light leading-[1.6]">
+              8030 La Mesa Blvd. #502<br />La Mesa, CA
+            </div>
+          </div>
+
+          <div>
+            <div
+              class="text-[0.6rem] tracking-[0.2em] uppercase text-sand/35 mb-3"
+            >
+              Follow
+            </div>
+            <div class="flex gap-3">
+              <a
+                href="#"
+                aria-label="Facebook"
+                class="w-8 h-8 rounded-full border border-white/[0.35] flex items-center justify-center text-white text-[0.65rem] cursor-pointer transition-all duration-300 no-underline hover:bg-white/[0.15] hover:border-white"
+                >f</a
+              >
+              <a
+                href="#"
+                aria-label="Instagram"
+                class="w-8 h-8 rounded-full border border-white/[0.35] flex items-center justify-center text-white text-[0.65rem] cursor-pointer transition-all duration-300 no-underline hover:bg-white/[0.15] hover:border-white"
+                >◎</a
+              >
+              <a
+                href="#"
+                aria-label="LinkedIn"
+                class="w-8 h-8 rounded-full border border-white/[0.35] flex items-center justify-center text-white text-[0.65rem] cursor-pointer transition-all duration-300 no-underline hover:bg-white/[0.15] hover:border-white"
+                >in</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="flex justify-between items-start flex-wrap gap-4 footer-bottom"
+        >
+          <div
+            class="text-[0.68rem] text-sand/30 font-light leading-[1.75] max-w-[600px]"
+          >
+            DeJone Watts is a licensed real estate agent in the State of
+            California (DRE #02247378) affiliated with
+            <strong class="font-medium text-sand/45"
+              >The Real Brokerage Technologies, Inc.</strong
+            >
+            (Real Broker). Active Regional Market Base: Fresno, CA. Corporate
+            Registered Address: 8030 La Mesa Blvd. #502, La Mesa, CA.
+          </div>
+          <div class="text-[0.65rem] text-sand/25 font-light italic text-right">
+            DeJone Watts Real Estate strictly adheres to the principles<br />of
+            the Fair Housing Act and Equal Opportunity Laws.
+          </div>
+        </div>
+
+        <div
+          class="mt-8 text-[0.6rem] text-sand/20 text-center tracking-[0.1em]"
+        >
+          © 2024 DeJone Watts Real Estate · All Rights Reserved
+        </div>
+      </div>
+    </footer>
+
+    <!-- ══════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════ -->
+    <script>
+      /* ── Sticky nav shadow ── */
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("main-nav")
+          .classList.toggle("scrolled", window.scrollY > 80);
+      });
+
+      /* ── Mobile nav toggle ── */
+      const navToggle = document.getElementById("nav-toggle");
+      const navLinks = document.getElementById("nav-links");
+      const mq = window.matchMedia("(max-width: 768px)");
+
+      function applyMobile(e) {
+        navToggle.style.display = e.matches ? "block" : "none";
+        const phone = document.getElementById("nav-phone");
+        if (phone) phone.style.display = e.matches ? "none" : "block";
+        if (!e.matches) navLinks.classList.remove("open");
+      }
+      mq.addEventListener("change", applyMobile);
+      applyMobile(mq);
+      navToggle.addEventListener("click", () =>
+        navLinks.classList.toggle("open"),
+      );
+
+      /* ── Scroll-triggered reveal ── */
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("revealed");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+
+      document
+        .querySelectorAll(
+          "[data-animate],[data-animate-left],[data-animate-scale]",
+        )
+        .forEach((el) => observer.observe(el));
+
+      /* ── Testimonial carousel ── */
+      const testimonials = [
+        {
+          body: "DeJone completely changed how we view real estate agents. There was zero pressure, absolute transparency, and he treated our budget with the utmost respect. We felt protected every step of the way.",
+          name: "Past Client",
+          loc: "Fresno, CA",
+          photo:
+            "../images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png",
+        },
+        {
+          body: "Working with DeJone meant having real, honest conversations about what was actually best for our family long-term. His faith, calmness, and strategic negotiation turned a high-stress move into an incredible experience.",
+          name: "Past Client",
+          loc: "Central Valley, CA",
+          photo:
+            "../images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean 1.png",
+        },
+      ];
+
+      let currentTest = 0;
+
+      function setTestimonial(idx) {
+        const t = testimonials[idx];
+        const bodyEl = document.getElementById("test-body");
+        const nameEl = document.getElementById("test-name");
+        const locEl = document.getElementById("test-loc");
+        const photoEl = document.getElementById("test-photo");
+
+        bodyEl.style.opacity = "0";
+        photoEl.style.opacity = "0";
+        setTimeout(() => {
+          bodyEl.textContent = t.body;
+          nameEl.textContent = t.name;
+          locEl.textContent = t.loc;
+          photoEl.src = t.photo;
+          bodyEl.style.opacity = "1";
+          photoEl.style.opacity = "1";
+        }, 300);
+
+        document
+          .querySelectorAll(".slider-dot")
+          .forEach((d, i) => d.classList.toggle("active", i === idx));
+        currentTest = idx;
+      }
+
+      document
+        .getElementById("test-prev")
+        .addEventListener("click", () =>
+          setTestimonial(
+            (currentTest - 1 + testimonials.length) % testimonials.length,
+          ),
+        );
+      document
+        .getElementById("test-next")
+        .addEventListener("click", () =>
+          setTestimonial((currentTest + 1) % testimonials.length),
+        );
+
+      /* ── Contact form ── */
+      document
+        .getElementById("contact-form")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          document.getElementById("form-success").style.display = "block";
+          e.target
+            .querySelectorAll("input,select,textarea")
+            .forEach((el) => (el.value = ""));
+          e.target.querySelector("button[type=submit]").style.display = "none";
+        });
+
+      /* ── Newsletter ── */
+      function handleNewsletter() {
+        const email = document.getElementById("newsletter-email").value;
+        if (!email) return;
+        document.getElementById("newsletter-email").value = "";
+        const msg = document.getElementById("newsletter-msg");
+        msg.style.display = "block";
+        setTimeout(() => (msg.style.display = "none"), 4000);
+      }
+    </script>
+  </body>
+</html>

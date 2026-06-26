@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Style Guide & Design Tokens | 2 Rivers Team</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            sand: '#E0D4C9',
+                            cream: '#EFEAE6',
+                            charcoal: '#2D2B2A',
+                            charcoalLight: '#3D3B3A',
+                            sandLight: '#ECE4DD'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Custom CSS for components, animations & layout -->
+    <style>
+        :root {
+            --brand-sand: #E0D4C9;
+            --brand-cream: #EFEAE6;
+            --brand-charcoal: #2D2B2A;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--brand-cream);
+            color: var(--brand-charcoal);
+        }
+
+        /* --- Scrollbar Customization --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--brand-cream);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--brand-sand);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c7baa9;
+        }
+
+        /* --- Custom Title Accent Line --- */
+        .sec-title-accent {
+            position: relative;
+            padding-left: 20px;
+        }
+        .sec-title-accent::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 1px;
+            background-color: var(--brand-sand);
+        }
+        .sec-title-accent::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: -1px;
+            width: 3px;
+            height: 24px;
+            background-color: var(--brand-charcoal);
+        }
+
+        /* --- Property Card Animations --- */
+        .fp-details-slide {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .property-address {
+            font-family: var(--font-sans);
+            transition: margin-bottom 0.3s ease, font-family 0.3s ease;
+        }
+        
+        .property-card-link:hover .property-address {
+            font-family: var(--font-serif);
+            margin-bottom: 0.75rem;
+        }
+
+        .fp-hover-details {
+            max-height: 0px;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        opacity 0.3s ease, 
+                        padding-bottom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .property-card-link:hover .fp-hover-details {
+            max-height: 120px;
+            opacity: 1;
+            padding-bottom: 1.25rem;
+        }
+
+        .property-img {
+            filter: grayscale(1);
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+
+        .property-card-link:hover .property-img {
+            filter: grayscale(0);
+            transform: scale(1.05);
+        }
+
+        .property-card-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .property-card-link:hover::after {
+            opacity: 0.15;
+        }
+
+        /* --- Neighborhood Card Animations --- */
+        .fn-img-container::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);
+            z-index: 2;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .fn-img-container::after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            background: var(--brand-charcoal);
+            opacity: 0.15;
+            transition: opacity 0.3s ease;
+        }
+        
+        .fn-card:hover .fn-img-container::after {
+            opacity: 0.4;
+        }
+
+        .fn-img {
+            filter: grayscale(1);
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+        .fn-card:hover .fn-img {
+            filter: grayscale(0);
+            transform: scale(1.05);
+        }
+
+        .fn-label-holder {
+            position: absolute;
+            bottom: 28px;
+            left: 24px;
+            z-index: 4;
+            transition: bottom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .fn-card:hover .fn-label-holder {
+            bottom: 45px;
+        }
+
+        .fn-label-holder span {
+            font-size: 16px;
+            font-weight: 500;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            writing-mode: vertical-lr;
+            transform: scale(-1);
+            padding-top: 40px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .fn-label-holder span::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 14px;
+            height: 28px;
+            margin: 0 auto;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 28' fill='none'%3E%3Cpath d='M7 0L14 14L7 28L0 14L7 0Z' fill='%23E0D4C9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
+        /* --- Vertical CTA Column --- */
+        .vertical-cta-card {
+            min-height: 380px;
+            background-color: var(--brand-charcoal);
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+        .vertical-cta-card:hover {
+            background-color: var(--brand-charcoalLight);
+        }
+        .vertical-cta-card span {
+            font-size: 16px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            display: inline-block;
+            writing-mode: vertical-lr;
+            transform: scale(-1) translateX(0);
+            bottom: 29px;
+            right: 15.2%;
+            position: absolute;
+            transition: transform 0.3s ease, right 0.3s ease;
+        }
+        .vertical-cta-card:hover span {
+            right: 50%;
+            transform: scale(-1) translateX(-50%);
+        }
+
+        /* --- Dropdown Menu Transitions --- */
+        .nav-item .sub-menu {
+            opacity: 0;
+            transform: translate(-50%, 15px);
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .nav-item:hover .sub-menu {
+            opacity: 1;
+            transform: translate(-50%, 0);
+            pointer-events: auto;
+        }
+
+        /* --- Scroll Down Indicator Button --- */
+        .icon-scroll-d {
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+            margin-top: 10px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 16px solid rgba(255, 255, 255, 0.4);
+        }
+        .icon-scroll-d::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 10px solid #fff;
+        }
+
+        /* --- Motion Sandbox Trigger Animations --- */
+        .sandbox-card.fade-up-active {
+            animation: simFadeUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        .sandbox-card.fade-left-active {
+            animation: simFadeLeft 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        .sandbox-card.fade-right-active {
+            animation: simFadeRight 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        .sandbox-card.zoom-in-active {
+            animation: simZoomIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes simFadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes simFadeLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes simFadeRight {
+            0% {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes simZoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* --- Form Fields --- */
+        .input-borderless {
+            border: none;
+            background: transparent;
+            border-bottom: 1px solid var(--brand-charcoal);
+            transition: border-bottom-color 0.3s ease;
+        }
+        .input-borderless:focus {
+            outline: none;
+            border-bottom-color: var(--brand-sand);
+        }
+
+        .dark-field input {
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: transparent;
+            color: #fff;
+            transition: border-color 0.3s ease;
+        }
+        .dark-field input:focus {
+            outline: none;
+            border-color: var(--brand-sand);
+        }
+    </style>
+</head>
+<body class="flex flex-col lg:flex-row min-h-screen">
+
+    <!-- ==========================================
+         SIDEBAR NAVIGATION & COLOR PALETTE
+         ========================================== -->
+    <aside class="w-full lg:w-80 bg-brand-charcoal text-brand-cream flex flex-col justify-between shrink-0 lg:fixed lg:h-screen z-50 border-r border-brand-charcoalLight shadow-2xl">
+        
+        <!-- Sidebar Content -->
+        <div class="p-8">
+            <!-- Header Brand -->
+            <div class="mb-10 text-center lg:text-left">
+                <h1 class="font-serif text-3xl tracking-widest text-brand-sand font-light">2 RIVERS</h1>
+                <p class="font-sans text-[10px] uppercase tracking-[0.3em] text-brand-cream/60 mt-1">Brand Design System</p>
+                <div class="w-16 h-[1px] bg-brand-sand mt-4 mx-auto lg:mx-0"></div>
+            </div>
+
+            <!-- Scroll Spy Menu Links -->
+            <nav class="space-y-1 font-sans text-xs uppercase tracking-[0.2em] text-brand-cream/80">
+                <a href="#color-palette" class="flex items-center gap-3 py-3 px-4 rounded hover:bg-brand-charcoalLight hover:text-white transition group border-l-2 border-transparent hover:border-brand-sand">
+                    <span class="text-[10px] text-brand-sand/50 group-hover:text-brand-sand">01</span> Color Palette
+                </a>
+                <a href="#typography" class="flex items-center gap-3 py-3 px-4 rounded hover:bg-brand-charcoalLight hover:text-white transition group border-l-2 border-transparent hover:border-brand-sand">
+                    <span class="text-[10px] text-brand-sand/50 group-hover:text-brand-sand">02</span> Typography
+                </a>
+                <a href="#card-designs" class="flex items-center gap-3 py-3 px-4 rounded hover:bg-brand-charcoalLight hover:text-white transition group border-l-2 border-transparent hover:border-brand-sand">
+                    <span class="text-[10px] text-brand-sand/50 group-hover:text-brand-sand">03</span> Card Designs
+                </a>
+                <a href="#blurb-designs" class="flex items-center gap-3 py-3 px-4 rounded hover:bg-brand-charcoalLight hover:text-white transition group border-l-2 border-transparent hover:border-brand-sand">
+                    <span class="text-[10px] text-brand-sand/50 group-hover:text-brand-sand">04</span> Blurb Designs
+                </a>
+                <a href="#motion-animations" class="flex items-center gap-3 py-3 px-4 rounded hover:bg-brand-charcoalLight hover:text-white transition group border-l-2 border-transparent hover:border-brand-sand">
+                    <span class="text-[10px] text-brand-sand/50 group-hover:text-brand-sand">05</span> Motion & Flow
+                </a>
+                <a href="#interactive-components" class="flex items-center gap-3 py-3 px-4 rounded hover:bg-brand-charcoalLight hover:text-white transition group border-l-2 border-transparent hover:border-brand-sand">
+                    <span class="text-[10px] text-brand-sand/50 group-hover:text-brand-sand">06</span> Interactions
+                </a>
+            </nav>
+        </div>
+
+        <!-- Color Palette Quick Swatch Widget -->
+        <div class="p-8 border-t border-brand-charcoalLight bg-black/20">
+            <h4 class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-cream/50 mb-3">Color Swatches</h4>
+            <div class="grid grid-cols-3 gap-2">
+                <!-- Swatch 1 -->
+                <div onclick="copyToClipboard('#E0D4C9')" class="cursor-pointer group relative flex flex-col items-center">
+                    <div class="w-full h-10 rounded bg-[#E0D4C9] shadow-inner transition group-hover:scale-105 border border-[#c7baa9]"></div>
+                    <span class="text-[8px] font-mono mt-1 text-brand-cream/60 group-hover:text-brand-sand">#E0D4C9</span>
+                </div>
+                <!-- Swatch 2 -->
+                <div onclick="copyToClipboard('#EFEAE6')" class="cursor-pointer group relative flex flex-col items-center">
+                    <div class="w-full h-10 rounded bg-[#EFEAE6] shadow-inner transition group-hover:scale-105 border border-[#dfdad5]"></div>
+                    <span class="text-[8px] font-mono mt-1 text-brand-cream/60 group-hover:text-white">#EFEAE6</span>
+                </div>
+                <!-- Swatch 3 -->
+                <div onclick="copyToClipboard('#2D2B2A')" class="cursor-pointer group relative flex flex-col items-center">
+                    <div class="w-full h-10 rounded bg-[#2D2B2A] shadow-inner transition group-hover:scale-105 border border-[#1d1b1a]"></div>
+                    <span class="text-[8px] font-mono mt-1 text-brand-cream/60 group-hover:text-white">#2D2B2A</span>
+                </div>
+            </div>
+            <div class="text-[9px] text-brand-cream/40 text-center mt-3 font-sans italic">Click swatch code to copy HEX</div>
+        </div>
+
+    </aside>
+
+    <!-- ==========================================
+         MAIN CONTENT WORKSPACE
+         ========================================== -->
+    <main class="flex-1 lg:ml-80 min-h-screen p-6 md:p-12 space-y-24 max-w-7xl">
+
+        <!-- ==========================================
+             INTRO & COLOR PALETTE SPECIFICATION
+             ========================================== -->
+        <section id="color-palette" class="space-y-6 pt-6">
+            <div class="sec-title-accent">
+                <span class="font-sans text-xs uppercase tracking-[0.2em] text-brand-charcoal/50">01 / Specification</span>
+                <h2 class="font-serif text-4xl uppercase tracking-wider text-brand-charcoal font-light mt-1">Brand Identity System</h2>
+            </div>
+            
+            <p class="font-sans text-sm text-brand-charcoal/80 leading-relaxed max-w-3xl">
+                This specification document presents the aesthetic identity extracted from the 2 Rivers Team luxury experience. 
+                All components, cards, typography, animations, and forms have been adapted to the brand's exclusive color system. 
+                Use this dashboard to preview layouts, interact with motions, and copy production-ready code blocks.
+            </p>
+
+            <!-- Color Palette Details Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                
+                <!-- Sand Color Card -->
+                <div class="bg-white p-6 rounded shadow-sm border border-brand-sand/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-sans text-[10px] uppercase tracking-widest text-brand-charcoal/50">Secondary / Warm Accent</span>
+                            <span class="w-3 h-3 rounded-full bg-[#E0D4C9]"></span>
+                        </div>
+                        <h3 class="font-serif text-2xl text-brand-charcoal tracking-wide mb-1">Warm Sand</h3>
+                        <p class="font-sans text-xs text-brand-charcoal/60 leading-relaxed mb-6">A soft, high-end warm neutral tone used for buttons, accent lines, border highlights, and secondary background details.</p>
+                    </div>
+                    <div class="bg-brand-cream/40 p-4 rounded font-mono text-xs flex justify-between items-center">
+                        <div>
+                            <span class="block text-[9px] uppercase tracking-wider text-brand-charcoal/40 font-sans">HEX Code</span>
+                            <span class="text-brand-charcoal font-bold text-sm">#E0D4C9</span>
+                        </div>
+                        <button onclick="copyToClipboard('#E0D4C9')" class="text-brand-charcoal/50 hover:text-brand-charcoal hover:bg-brand-sand/50 p-2 rounded transition" title="Copy HEX">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cream Color Card -->
+                <div class="bg-white p-6 rounded shadow-sm border border-brand-sand/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-sans text-[10px] uppercase tracking-widest text-brand-charcoal/50">Primary Background Light</span>
+                            <span class="w-3 h-3 rounded-full bg-[#EFEAE6]"></span>
+                        </div>
+                        <h3 class="font-serif text-2xl text-brand-charcoal tracking-wide mb-1">Canvas Cream</h3>
+                        <p class="font-sans text-xs text-brand-charcoal/60 leading-relaxed mb-6">A delicate, pristine off-white canvas establishing a premium luxury real estate print-catalog aesthetic for content layouts.</p>
+                    </div>
+                    <div class="bg-brand-cream/40 p-4 rounded font-mono text-xs flex justify-between items-center">
+                        <div>
+                            <span class="block text-[9px] uppercase tracking-wider text-brand-charcoal/40 font-sans">HEX Code</span>
+                            <span class="text-brand-charcoal font-bold text-sm">#EFEAE6</span>
+                        </div>
+                        <button onclick="copyToClipboard('#EFEAE6')" class="text-brand-charcoal/50 hover:text-brand-charcoal hover:bg-brand-sand/50 p-2 rounded transition" title="Copy HEX">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Charcoal Color Card -->
+                <div class="bg-white p-6 rounded shadow-sm border border-brand-sand/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-sans text-[10px] uppercase tracking-widest text-brand-charcoal/50">Primary Dark / Contrast</span>
+                            <span class="w-3 h-3 rounded-full bg-[#2D2B2A]"></span>
+                        </div>
+                        <h3 class="font-serif text-2xl text-brand-charcoal tracking-wide mb-1">Deep Charcoal</h3>
+                        <p class="font-sans text-xs text-brand-charcoal/60 leading-relaxed mb-6">The anchor tone of the brand. Imparts strength, premium contrast, high-end editorial clarity, and luxurious definition to forms and dark sections.</p>
+                    </div>
+                    <div class="bg-brand-cream/40 p-4 rounded font-mono text-xs flex justify-between items-center">
+                        <div>
+                            <span class="block text-[9px] uppercase tracking-wider text-brand-charcoal/40 font-sans">HEX Code</span>
+                            <span class="text-brand-charcoal font-bold text-sm">#2D2B2A</span>
+                        </div>
+                        <button onclick="copyToClipboard('#2D2B2A')" class="text-brand-charcoal/50 hover:text-brand-charcoal hover:bg-brand-sand/50 p-2 rounded transition" title="Copy HEX">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             TYPOGRAPHY SPECIMEN
+             ========================================== -->
+        <section id="typography" class="space-y-6 scroll-mt-6">
+            <div class="sec-title-accent">
+                <span class="font-sans text-xs uppercase tracking-[0.2em] text-brand-charcoal/50">02 / Typography</span>
+                <h2 class="font-serif text-4xl uppercase tracking-wider text-brand-charcoal font-light mt-1">Typography Specimen</h2>
+            </div>
+
+            <!-- Specimen Grid -->
+            <div class="bg-white p-8 rounded shadow-sm border border-brand-sand/30 space-y-8">
+                
+                <!-- Display H1 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start border-b border-brand-cream pb-6">
+                    <div class="text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/40">
+                        H1 / Hero Title
+                        <span class="block font-mono mt-1 text-[9px]">Font: Cormorant Garamond / Light / 65px / tracking-0.05em</span>
+                    </div>
+                    <div class="md:col-span-3">
+                        <h1 class="font-serif text-[48px] md:text-[65px] font-light text-brand-charcoal leading-none uppercase tracking-[0.05em]">
+                            DESIGNED <br class="hidden md:block" />AROUND YOU
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Display H2 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start border-b border-brand-cream pb-6">
+                    <div class="text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/40">
+                        H2 / Section Title
+                        <span class="block font-mono mt-1 text-[9px]">Font: Cormorant Garamond / Light / 40px / tracking-0.05em</span>
+                    </div>
+                    <div class="md:col-span-3">
+                        <h2 class="font-serif text-3xl md:text-4xl text-brand-charcoal leading-tight uppercase tracking-[0.05em]">
+                            ABOUT <span class="text-brand-sand font-medium">2 RIVERS TEAM</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <!-- Display H3 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start border-b border-brand-cream pb-6">
+                    <div class="text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/40">
+                        H3 / Card & Subhead
+                        <span class="block font-mono mt-1 text-[9px]">Font: Inter / SemiBold / 22px / tracking-0.05em</span>
+                    </div>
+                    <div class="md:col-span-3">
+                        <h3 class="font-sans text-xl md:text-2xl font-semibold uppercase tracking-[0.05em] text-brand-charcoal">
+                            KB HOME Q2 2026 EARNINGS
+                        </h3>
+                    </div>
+                </div>
+
+                <!-- Display H4 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start border-b border-brand-cream pb-6">
+                    <div class="text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/40">
+                        H4 / Small Headers
+                        <span class="block font-mono mt-1 text-[9px]">Font: Inter / Medium / 18px / tracking-0.25em</span>
+                    </div>
+                    <div class="md:col-span-3">
+                        <h4 class="font-sans text-base md:text-lg font-medium uppercase tracking-[0.25em] text-brand-charcoal">
+                            U STREET CORRIDOR, DC
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Display H5 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start border-b border-brand-cream pb-6">
+                    <div class="text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/40">
+                        H5 / Buttons & Badges
+                        <span class="block font-mono mt-1 text-[9px]">Font: Inter / Medium / 14px / tracking-0.2em</span>
+                    </div>
+                    <div class="md:col-span-3 font-sans">
+                        <span class="text-sm font-medium uppercase tracking-[0.2em] text-brand-charcoal bg-brand-sand/30 py-2 px-4 rounded border border-brand-sand/50">
+                            VIEW DETAILS
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Display H6 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start border-b border-brand-cream pb-6">
+                    <div class="text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/40">
+                        H6 / Sub-Labels
+                        <span class="block font-mono mt-1 text-[9px]">Font: Inter / Regular / 12px / tracking-0.1em</span>
+                    </div>
+                    <div class="md:col-span-3">
+                        <h6 class="font-sans text-xs uppercase tracking-[0.1em] text-brand-charcoal/50">
+                            WHO WE ARE
+                        </h6>
+                    </div>
+                </div>
+
+                <!-- Body Specimen -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start pb-2">
+                    <div class="text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/40">
+                        Body / Copy
+                        <span class="block font-mono mt-1 text-[9px]">Font: Inter / Regular / 15px / leading-24px / tracking-0.05em</span>
+                    </div>
+                    <div class="md:col-span-3">
+                        <p class="font-sans text-[15px] leading-relaxed text-brand-charcoal/70 tracking-[0.05em]">
+                            The 2 Rivers Team was inspired by the mighty Potomac and Anacostia rivers that flow through DC, Maryland, and Virginia (the DMV). Connecting buyers and sellers in all three jurisdictions is what we do and we are proudly a multi-year awarded Washingtonian Best of Team. We know that real estate is both emotional and analytical, and that's why we've got both heart and smarts.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Interactive Typography Playground -->
+            <div class="bg-brand-charcoal text-brand-cream p-8 rounded shadow-sm border border-brand-charcoalLight space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-charcoalLight pb-4">
+                    <h3 class="font-serif text-2xl text-brand-sand font-light">Interactive Typography Playground</h3>
+                    
+                    <!-- Controls -->
+                    <div class="flex flex-wrap gap-4 font-sans text-xs">
+                        <!-- Font Selector -->
+                        <div class="flex items-center gap-2">
+                            <span class="text-brand-cream/50 uppercase tracking-widest text-[9px]">Font:</span>
+                            <select id="play-font" onchange="updatePlaygroundFont()" class="bg-brand-charcoalLight text-brand-cream border border-brand-charcoalLight p-2 rounded focus:outline-none focus:border-brand-sand">
+                                <option value="font-serif">Cormorant Garamond (Serif)</option>
+                                <option value="font-sans" selected>Inter (Sans)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Size Slider -->
+                        <div class="flex items-center gap-2">
+                            <span class="text-brand-cream/50 uppercase tracking-widest text-[9px]">Size:</span>
+                            <input id="play-size" type="range" min="14" max="80" value="28" oninput="updatePlayground()" class="accent-brand-sand cursor-pointer" />
+                            <span id="play-size-val" class="font-mono text-brand-sand w-8">28px</span>
+                        </div>
+
+                        <!-- Tracking Slider -->
+                        <div class="flex items-center gap-2">
+                            <span class="text-brand-cream/50 uppercase tracking-widest text-[9px]">Spacing:</span>
+                            <input id="play-spacing" type="range" min="0" max="30" value="5" oninput="updatePlayground()" class="accent-brand-sand cursor-pointer" />
+                            <span id="play-spacing-val" class="font-mono text-brand-sand w-8">0.05em</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Area Input -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[9px] uppercase tracking-widest text-brand-cream/40 mb-2 font-sans">Type Preview Text Here</label>
+                        <textarea id="play-input" oninput="updatePlaygroundText()" class="w-full h-32 bg-brand-charcoalLight text-brand-cream rounded p-4 border border-brand-charcoalLight focus:outline-none focus:border-brand-sand text-sm font-sans" placeholder="Type your brand tagline here...">DESIGNED AROUND YOU. REAL ESTATE OPPORTUNITIES MADE SIMPLE.</textarea>
+                    </div>
+                    <div class="flex flex-col justify-center border border-brand-charcoalLight p-6 rounded bg-black/10">
+                        <label class="block text-[9px] uppercase tracking-widest text-brand-cream/40 mb-3 font-sans">Live Specimen Render</label>
+                        <div id="play-output" class="text-brand-cream font-sans uppercase tracking-[0.05em]" style="font-size: 28px;">
+                            DESIGNED AROUND YOU. REAL ESTATE OPPORTUNITIES MADE SIMPLE.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             CARD DESIGNS
+             ========================================== -->
+        <section id="card-designs" class="space-y-6 scroll-mt-6">
+            <div class="sec-title-accent">
+                <span class="font-sans text-xs uppercase tracking-[0.2em] text-brand-charcoal/50">03 / Layouts</span>
+                <h2 class="font-serif text-4xl uppercase tracking-wider text-brand-charcoal font-light mt-1">Card Designs</h2>
+            </div>
+            
+            <p class="font-sans text-sm text-brand-charcoal/80 leading-relaxed max-w-3xl">
+                These cards showcase high-end visual behaviors. Hovering triggers smooth grayscale-to-color transitions, 
+                dynamic font switches, sliding content drawer reveals, and custom vertical text translations.
+            </p>
+
+            <div class="space-y-12 pt-4">
+
+                <!-- 1. FEATURED PROPERTY CARD -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- Preview -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <span class="block text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">03.1 / Property Card (Hover to view detail drawer)</span>
+                        
+                        <!-- Interactive Property Card Markup -->
+                        <div class="w-full max-w-[400px] mx-auto property-card-link relative block overflow-hidden bg-brand-charcoal group shadow-xl">
+                            
+                            <!-- Card Image -->
+                            <div class="relative overflow-hidden aspect-[1174/599]">
+                                <img src="https://bright-media02.prd.brightmls.com/bright/images/0000/8050/9061/1168/805090611168_1440_1080_WM_pEqxLMZaZ442XOzy.jpg" 
+                                     alt="2604 36TH ST NW" 
+                                     class="property-img w-full h-full object-cover" />
+                            </div>
+
+                            <!-- Drawer Details -->
+                            <div class="fp-details-slide w-full bg-brand-charcoal text-white p-6 relative z-20">
+                                <div class="property-address text-lg md:text-xl font-light leading-snug tracking-wider mb-4">
+                                    2604 36TH ST NW, WASHINGTON, DC 20007
+                                </div>
+                                
+                                <div class="fp-hover-details">
+                                    <div class="text-xl font-light text-brand-sand tracking-widest mb-4">$5,495,000</div>
+                                    <div class="text-xs uppercase tracking-widest text-brand-cream/80 border-t border-brand-charcoalLight pt-4 space-x-3">
+                                        <span>Beds: 7</span>
+                                        <span class="border-l border-brand-charcoalLight pl-3">Baths: 7.5</span>
+                                        <span class="border-l border-brand-charcoalLight pl-3">SQFT: 6,500</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <span class="inline-block text-[10px] font-sans font-medium uppercase tracking-[0.2em] bg-brand-cream text-brand-charcoal py-3 px-6 hover:bg-brand-sand transition duration-300">
+                                        View Details
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Code Tab -->
+                    <div class="lg:col-span-7 font-sans">
+                        <div class="flex justify-between items-center bg-brand-charcoal text-brand-cream px-6 py-3 rounded-t text-xs">
+                            <span class="uppercase tracking-widest">Tailwind & CSS Recipe</span>
+                            <button onclick="copyCode('recipe-property-card')" class="text-brand-sand hover:text-white transition">
+                                <i class="fa-regular fa-copy mr-2"></i>Copy Code
+                            </button>
+                        </div>
+                        <pre class="bg-brand-charcoalLight text-brand-cream p-6 rounded-b text-[11px] overflow-x-auto max-h-[360px] font-mono leading-normal" id="recipe-property-card"><code>&lt;!-- Wrapper Link --&gt;
+&lt;a href="#" class="property-card-link relative block overflow-hidden bg-brand-charcoal shadow-xl"&gt;
+  &lt;!-- Image Holder --&gt;
+  &lt;div class="relative overflow-hidden aspect-[1174/599]"&gt;
+    &lt;img src="image.jpg" class="property-img w-full h-full object-cover transition-all duration-500 scale-100 hover:scale-105" /&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Details Drawer Content --&gt;
+  &lt;div class="w-full bg-[#2D2B2A] text-white p-6 relative z-20"&gt;
+    &lt;!-- Font-switch and margin shift address --&gt;
+    &lt;div class="property-address text-lg md:text-xl font-light leading-snug tracking-wider mb-4"&gt;
+      2604 36TH ST NW, WASHINGTON, DC 20007
+    &lt;/div&gt;
+    
+    &lt;!-- Expandable panel on parent hover --&gt;
+    &lt;div class="fp-hover-details"&gt;
+      &lt;div class="text-xl font-light text-[#E0D4C9] tracking-widest mb-4"&gt;$5,495,000&lt;/div&gt;
+      &lt;div class="text-xs uppercase tracking-widest text-white/80 border-t border-[#3D3B3A] pt-4 space-x-3"&gt;
+        &lt;span&gt;Beds: 7&lt;/span&gt;
+        &lt;span class="border-l border-[#3D3B3A] pl-3"&gt;Baths: 7.5&lt;/span&gt;
+        &lt;span class="border-l border-[#3D3B3A] pl-3"&gt;SQFT: 6,500&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="mt-2"&gt;
+      &lt;span class="inline-block text-[10px] font-sans font-medium uppercase tracking-[0.2em] bg-[#EFEAE6] text-[#2D2B2A] py-3 px-6 hover:bg-[#E0D4C9] transition duration-300"&gt;
+        View Details
+      &lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;</code></pre>
+                    </div>
+                </div>
+
+                <hr class="border-brand-sand/30" />
+
+                <!-- 2. NEIGHBORHOOD CARD -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- Preview -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <span class="block text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">03.2 / Neighborhood Card (Hover to reveal flip animation)</span>
+                        
+                        <!-- Interactive Card -->
+                        <div class="fn-card w-[240px] h-[373px] mx-auto relative overflow-hidden shadow-xl cursor-pointer group bg-brand-charcoal">
+                            <!-- Image container -->
+                            <div class="fn-img-container w-full h-full relative overflow-hidden">
+                                <img src="https://www.2riversteam.com/wp-content/uploads/2023/02/u-street.jpg" 
+                                     alt="U Street Corridor, DC" 
+                                     class="fn-img w-full h-full object-cover" />
+                            </div>
+                            
+                            <!-- Floating flipped vertical label -->
+                            <div class="fn-label-holder">
+                                <span>U Street Corridor, DC</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Code Tab -->
+                    <div class="lg:col-span-7 font-sans">
+                        <div class="flex justify-between items-center bg-brand-charcoal text-brand-cream px-6 py-3 rounded-t text-xs">
+                            <span class="uppercase tracking-widest">Tailwind & CSS Recipe</span>
+                            <button onclick="copyCode('recipe-neigh-card')" class="text-brand-sand hover:text-white transition">
+                                <i class="fa-regular fa-copy mr-2"></i>Copy Code
+                            </button>
+                        </div>
+                        <pre class="bg-brand-charcoalLight text-brand-cream p-6 rounded-b text-[11px] overflow-x-auto max-h-[360px] font-mono leading-normal" id="recipe-neigh-card"><code>&lt;!-- Vertical Neighborhood Card --&gt;
+&lt;div class="fn-card w-[240px] h-[373px] relative overflow-hidden shadow-xl cursor-pointer group bg-[#2D2B2A]"&gt;
+  &lt;!-- Image Holder with Dual Gradient Overlay --&gt;
+  &lt;div class="fn-img-container w-full h-full relative overflow-hidden"&gt;
+    &lt;img src="neighborhood.jpg" class="fn-img w-full h-full object-cover" /&gt;
+  &lt;/div&gt;
+  
+  &lt;!-- Floating Flipped Label (Vertical-lr & Bottom Translation) --&gt;
+  &lt;div class="fn-label-holder"&gt;
+    &lt;span&gt;U Street Corridor, DC&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Required CSS in &lt;style&gt; block --&gt;
+&lt;style&gt;
+  .fn-img-container::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);
+    z-index: 2; opacity: 0.7; transition: opacity 0.3s ease;
+  }
+  .fn-img-container::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 3; background: #2D2B2A; opacity: 0.15;
+    transition: opacity 0.3s/color 0.3s ease;
+  }
+  .fn-card:hover .fn-img-container::after {
+    opacity: 0.4;
+  }
+  .fn-img {
+    filter: grayscale(1);
+    transition: filter 0.5s ease, transform 0.5s ease;
+  }
+  .fn-card:hover .fn-img {
+    filter: grayscale(0);
+    transform: scale(1.05);
+  }
+  .fn-label-holder {
+    position: absolute;
+    bottom: 28px; left: 24px; z-index: 4;
+    transition: bottom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .fn-card:hover .fn-label-holder {
+    bottom: 45px;
+  }
+  .fn-label-holder span {
+    font-size: 16px; font-weight: 500; color: #fff; text-transform: uppercase;
+    letter-spacing: 0.25em; writing-mode: vertical-lr; transform: scale(-1);
+    padding-top: 40px; display: inline-block; position: relative;
+  }
+  .fn-label-holder span::before {
+    content: ""; display: block; position: absolute; top: 0; left: 0; right: 0;
+    width: 14px; height: 28px; margin: 0 auto;
+    background-image: url("data:image/svg+xml,...");
+    background-repeat: no-repeat; background-position: center; background-size: contain;
+  }
+&lt;/style&gt;</code></pre>
+                    </div>
+                </div>
+
+                <hr class="border-brand-sand/30" />
+
+                <!-- 3. NEWS / BLOG CARD -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- Preview -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <span class="block text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">03.3 / Editorial News Card</span>
+                        
+                        <!-- Interactive News Card -->
+                        <div class="w-full max-w-[360px] mx-auto bg-white border border-brand-sand/30 rounded overflow-hidden shadow-sm group">
+                            <!-- Image Container -->
+                            <div class="relative overflow-hidden aspect-[360/265] bg-brand-charcoal">
+                                <!-- Date Badge -->
+                                <div class="absolute top-0 left-0 bg-brand-charcoal text-white font-sans text-[11px] uppercase tracking-[0.1em] font-medium py-3 px-4 z-10 leading-tight">
+                                    25 June 2026<br /><span class="text-brand-sand font-mono text-[9px]">9:24 PM</span>
+                                </div>
+                                <img src="https://www.2riversteam.com/wp-content/themes/2riversteam.com/images/welcome-img-new-big.jpg" 
+                                     alt="Blog image" 
+                                     class="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-80" />
+                            </div>
+                            <!-- Content Details -->
+                            <div class="p-6 text-center">
+                                <h3 class="font-sans text-lg font-semibold uppercase tracking-wider text-brand-charcoal leading-snug mb-3">
+                                    <a href="#" class="hover:text-brand-sand transition duration-300">KB Home Q2 2026 Earnings Shift Debate</a>
+                                </h3>
+                                <p class="font-sans text-xs text-brand-charcoal/60 leading-relaxed tracking-wide mb-6">
+                                    Homebuilding’s mid-year public company earnings season is now looking through the prism of the back half of 2026. Each of the sector's players had better...
+                                </p>
+                                <a href="#" class="inline-block text-[10px] font-sans font-medium uppercase tracking-[0.2em] bg-brand-charcoal text-white py-3 px-6 hover:bg-brand-sand hover:text-brand-charcoal transition duration-300">
+                                    Read More
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Code Tab -->
+                    <div class="lg:col-span-7 font-sans">
+                        <div class="flex justify-between items-center bg-brand-charcoal text-brand-cream px-6 py-3 rounded-t text-xs">
+                            <span class="uppercase tracking-widest">Tailwind & CSS Recipe</span>
+                            <button onclick="copyCode('recipe-blog-card')" class="text-brand-sand hover:text-white transition">
+                                <i class="fa-regular fa-copy mr-2"></i>Copy Code
+                            </button>
+                        </div>
+                        <pre class="bg-brand-charcoalLight text-brand-cream p-6 rounded-b text-[11px] overflow-x-auto max-h-[360px] font-mono leading-normal" id="recipe-blog-card"><code>&lt;!-- Blog Card Item --&gt;
+&lt;div class="w-full max-w-[360px] bg-white border border-[#E0D4C9]/30 rounded overflow-hidden shadow-sm group"&gt;
+  &lt;!-- Image Holder --&gt;
+  &lt;div class="relative overflow-hidden aspect-[360/265] bg-[#2D2B2A]"&gt;
+    &lt;!-- Date Badge absolute --&gt;
+    &lt;div class="absolute top-0 left-0 bg-[#2D2B2A] text-white font-sans text-[11px] uppercase tracking-[0.1em] font-medium py-3 px-4 z-10 leading-tight"&gt;
+      25 June 2026&lt;br /&gt;&lt;span class="text-[#E0D4C9] font-mono text-[9px]"&gt;9:24 PM&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;img src="news.jpg" class="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-80" /&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Description and CTA --&gt;
+  &lt;div class="p-6 text-center"&gt;
+    &lt;h3 class="font-sans text-lg font-semibold uppercase tracking-wider text-[#2D2B2A] leading-snug mb-3"&gt;
+      &lt;a href="#" class="hover:text-[#E0D4C9] transition duration-300"&gt;KB Home Q2 2026 Earnings Shift Debate&lt;/a&gt;
+    &lt;/h3&gt;
+    &lt;p class="font-sans text-xs text-[#2D2B2A]/60 leading-relaxed tracking-wide mb-6"&gt;
+      Homebuilding’s mid-year public company earnings season is now looking through...
+    &lt;/p&gt;
+    &lt;a href="#" class="inline-block text-[10px] font-sans font-medium uppercase tracking-[0.2em] bg-[#2D2B2A] text-white py-3 px-6 hover:bg-[#E0D4C9] hover:text-[#2D2B2A] transition duration-300"&gt;
+      Read More
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+
+                <hr class="border-brand-sand/30" />
+
+                <!-- 4. VERTICAL CTA COLUMN (BONUS CARD DESIGN FROM SITE ACCENTS) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- Preview -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <span class="block text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">03.4 / Slide-Out Vertical Text CTA Card (Hover card)</span>
+                        
+                        <!-- Interactive Card -->
+                        <a href="#" class="vertical-cta-card w-[240px] mx-auto block rounded shadow-xl">
+                            <!-- Floating vertical text that moves on hover -->
+                            <span>Sell Now</span>
+                        </a>
+
+                    </div>
+                    
+                    <!-- Code Tab -->
+                    <div class="lg:col-span-7 font-sans">
+                        <div class="flex justify-between items-center bg-brand-charcoal text-brand-cream px-6 py-3 rounded-t text-xs">
+                            <span class="uppercase tracking-widest">Tailwind & CSS Recipe</span>
+                            <button onclick="copyCode('recipe-vcta-card')" class="text-brand-sand hover:text-white transition">
+                                <i class="fa-regular fa-copy mr-2"></i>Copy Code
+                            </button>
+                        </div>
+                        <pre class="bg-brand-charcoalLight text-brand-cream p-6 rounded-b text-[11px] overflow-x-auto max-h-[360px] font-mono leading-normal" id="recipe-vcta-card"><code>&lt;!-- Hover Card with Slide-out centered text --&gt;
+&lt;a href="#" class="vertical-cta-card w-[240px] block rounded shadow-xl relative overflow-hidden min-h-[380px] bg-[#2D2B2A]"&gt;
+  &lt;span&gt;Sell Now&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;!-- Required CSS in &lt;style&gt; block --&gt;
+&lt;style&gt;
+  .vertical-cta-card span {
+    font-size: 16px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    display: inline-block;
+    writing-mode: vertical-lr;
+    transform: scale(-1) translateX(0);
+    bottom: 29px;
+    right: 15.2%;
+    position: absolute;
+    transition: transform 0.3s ease, right 0.3s ease;
+  }
+  .vertical-cta-card:hover span {
+    right: 50%;
+    transform: scale(-1) translateX(-50%);
+  }
+&lt;/style&gt;</code></pre>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             BLURB DESIGNS
+             ========================================== -->
+        <section id="blurb-designs" class="space-y-6 scroll-mt-6">
+            <div class="sec-title-accent">
+                <span class="font-sans text-xs uppercase tracking-[0.2em] text-brand-charcoal/50">04 / Layouts</span>
+                <h2 class="font-serif text-4xl uppercase tracking-wider text-brand-charcoal font-light mt-1">Blurb & Row Layouts</h2>
+            </div>
+            
+            <p class="font-sans text-sm text-brand-charcoal/80 leading-relaxed max-w-3xl">
+                The editorial layouts define how typography blends with graphical anchors like vertical title rules, 
+                offset block spacing, and contrasting background overlays to produce a clean luxury editorial feel.
+            </p>
+
+            <div class="space-y-16 pt-4">
+                
+                <!-- 1. WELCOME SECTION ROW -->
+                <div class="space-y-4">
+                    <span class="block text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">04.1 / Welcome & Brand Row (Left Border Title Anchor)</span>
+                    
+                    <div class="bg-white p-8 rounded border border-brand-sand/30 shadow-sm">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            
+                            <!-- Graphic / Image (Offset mockup) -->
+                            <div class="lg:col-span-5 relative">
+                                <div class="w-full aspect-[602/724] bg-brand-charcoal relative overflow-hidden shadow-lg border-4 border-white">
+                                    <img src="https://www.2riversteam.com/wp-content/themes/2riversteam.com/images/welcome-img-new-big.jpg" 
+                                         alt="Welcome" 
+                                         class="w-full h-full object-cover" />
+                                </div>
+                            </div>
+                            
+                            <!-- Blurb Details -->
+                            <div class="lg:col-span-7 space-y-6">
+                                <!-- Heading with Accent Vertical Line -->
+                                <div class="sec-title-accent">
+                                    <span class="block font-sans text-xs uppercase tracking-[0.1em] text-brand-sand font-medium mb-1">About Us</span>
+                                    <h2 class="font-serif text-3xl uppercase tracking-widest text-brand-charcoal font-light leading-none">
+                                        About 2 Rivers Team
+                                    </h2>
+                                    <span class="block font-sans text-[11px] uppercase tracking-widest text-brand-charcoal/40 mt-1">Who We Are</span>
+                                </div>
+
+                                <!-- Narrative Block -->
+                                <p class="font-sans text-[14px] leading-relaxed text-brand-charcoal/70 tracking-wide">
+                                    The 2 Rivers Team was inspired by the mighty Potomac and Anacostia rivers that flow through DC, Maryland, and Virginia (the DMV). Connecting buyers and sellers in all three jurisdictions is what we do and we are proudly a multi-year awarded Washingtonian Best of Team. We know that real estate is both emotional and analytical, and that's why we've got both heart and smarts.
+                                </p>
+
+                                <div class="pt-2">
+                                    <a href="#" class="inline-block text-[11px] font-sans font-medium uppercase tracking-[0.2em] bg-brand-charcoal text-white py-4 px-8 hover:bg-brand-sand hover:text-brand-charcoal transition duration-300">
+                                        Meet The Team
+                                    </a>
+                                </div>
+
+                                <!-- Grid of Awards logos -->
+                                <div class="pt-6 border-t border-brand-cream flex flex-wrap gap-6 items-center">
+                                    <img src="https://www.2riversteam.com/wp-content/uploads/2023/04/best2021.png" class="h-12 w-auto object-contain grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition" alt="Award 2021" />
+                                    <img src="https://www.2riversteam.com/wp-content/uploads/2023/04/TopAgent2021.png" class="h-12 w-auto object-contain grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition" alt="Award Top Agent" />
+                                    <img src="https://www.2riversteam.com/wp-content/themes/2riversteam.com/images/best-2022.png" class="h-12 w-auto object-contain grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition" alt="Award 2022" />
+                                    <img src="https://www.2riversteam.com/wp-content/themes/2riversteam.com/images/top-2022.png" class="h-12 w-auto object-contain grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition" alt="Award Top 2022" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. CONCIERGE TEXT BLURB GRID -->
+                <div class="space-y-4">
+                    <span class="block text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">04.2 / Concierge Stack (Offset Content Grid with Offset Images/Video mock)</span>
+                    
+                    <div class="bg-white p-8 rounded border border-brand-sand/30 shadow-sm">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                            
+                            <!-- Left Column: Blurbs -->
+                            <div class="lg:col-span-5 space-y-12">
+                                <!-- Item 1 -->
+                                <div class="space-y-4">
+                                    <div class="sec-title-accent">
+                                        <h3 class="font-serif text-2xl uppercase tracking-widest text-brand-charcoal font-light leading-none">Compass Concierge</h3>
+                                    </div>
+                                    <p class="font-sans text-[13px] leading-relaxed text-brand-charcoal/60">
+                                        Get fronted for the cost of home improvement services with no interest. Compass Concierge is the hassle-free way to sell your home faster and for a higher price with services like staging, flooring, painting, and more.
+                                    </p>
+                                    <a href="#" class="inline-block text-[10px] font-sans font-medium uppercase tracking-[0.2em] bg-brand-charcoal text-white py-3 px-6 hover:bg-brand-sand hover:text-brand-charcoal transition">
+                                        Learn More
+                                    </a>
+                                </div>
+
+                                <!-- Item 2 -->
+                                <div class="space-y-4">
+                                    <div class="sec-title-accent">
+                                        <h3 class="font-serif text-2xl uppercase tracking-widest text-brand-charcoal font-light leading-none">Compass Collections</h3>
+                                    </div>
+                                    <p class="font-sans text-[13px] leading-relaxed text-brand-charcoal/60">
+                                        A smarter, more seamless home search, customized with your specific real estate goals in mind. With Compass Collections, we make your property search easier and a whole lot more fun. Discuss property features with us, favorite homes, and request tours.
+                                    </p>
+                                    <a href="#" class="inline-block text-[10px] font-sans font-medium uppercase tracking-[0.2em] bg-brand-charcoal text-white py-3 px-6 hover:bg-brand-sand hover:text-brand-charcoal transition">
+                                        Learn More
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Column: Mock Offset Layout -->
+                            <div class="lg:col-span-7 flex flex-col justify-between">
+                                <div class="relative aspect-[16/10] bg-brand-charcoal rounded shadow-md overflow-hidden border border-brand-sand/30">
+                                    <!-- Video Embed Mock -->
+                                    <div class="absolute inset-0 bg-cover bg-center flex items-center justify-center" style="background-image: url('https://www.2riversteam.com/wp-content/themes/2riversteam.com/images/con-img-1.jpg');">
+                                        <div class="absolute inset-0 bg-black/35"></div>
+                                        <!-- Play Button -->
+                                        <button class="w-16 h-16 rounded-full bg-white/90 hover:bg-brand-sand text-brand-charcoal flex items-center justify-center shadow-lg transition-transform hover:scale-110 z-10">
+                                            <i class="fa-solid fa-play text-xl ml-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mt-6 text-right text-xs uppercase tracking-widest text-brand-charcoal/40 font-sans italic">
+                                    Offset Interactive Video Embed Layout
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. OVERLAPPING TESTIMONIAL PANEL -->
+                <div class="space-y-4">
+                    <span class="block text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">04.3 / Overlapping Card Layout (Luxury Dark Background Frame)</span>
+                    
+                    <!-- Dark Section Container -->
+                    <div class="bg-brand-charcoal text-white p-8 md:p-16 rounded relative overflow-hidden shadow-xl">
+                        <!-- BG Logo Overlay simulation -->
+                        <div class="absolute -bottom-20 -left-20 text-white/5 font-serif text-[180px] pointer-events-none select-none">
+                            RIVERS
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                            
+                            <!-- Client Portrait (Left Side) -->
+                            <div class="lg:col-span-5 relative">
+                                <div class="aspect-square bg-[#3D3B3A] overflow-hidden max-w-[320px] mx-auto border-2 border-brand-sand">
+                                    <img src="https://www.2riversteam.com/wp-content/themes/2riversteam.com/images/testi-img-09.jpg" 
+                                         alt="Client Portrait" 
+                                         class="w-full h-full object-cover" />
+                                </div>
+                            </div>
+                            
+                            <!-- Testimonial White Overlap Box (Right Side) -->
+                            <div class="lg:col-span-7">
+                                <div class="bg-brand-cream text-brand-charcoal p-8 md:p-12 relative shadow-2xl rounded">
+                                    <!-- Quote symbol -->
+                                    <div class="text-brand-sand text-5xl font-serif leading-none mb-6">
+                                        <i class="fa-solid fa-quote-left"></i>
+                                    </div>
+                                    
+                                    <p class="font-sans text-[14px] leading-relaxed text-brand-charcoal/80 italic mb-6">
+                                        We had an amazing experience working with the 2 Rivers Team! Having recently accepted a job in DC and committing to move to a new city that we had never once visited, house hunting could have been a daunting and scary endeavor. From the very first conversation, our minds were put at ease. They were incredibly understanding of our situation and were genuinely excited for us and the move.
+                                    </p>
+                                    
+                                    <div class="border-t border-brand-sand pt-4 flex justify-between items-center">
+                                        <span class="font-sans text-lg font-semibold uppercase tracking-wider text-brand-charcoal">Caren B.</span>
+                                        <span class="text-[10px] uppercase tracking-widest text-brand-charcoal/40 font-sans">Verified Client</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             MOTION & ANIMATIONS
+             ========================================== -->
+        <section id="motion-animations" class="space-y-6 scroll-mt-6">
+            <div class="sec-title-accent">
+                <span class="font-sans text-xs uppercase tracking-[0.2em] text-brand-charcoal/50">05 / Motion</span>
+                <h2 class="font-serif text-4xl uppercase tracking-wider text-brand-charcoal font-light mt-1">Motion & Animations</h2>
+            </div>
+            
+            <p class="font-sans text-sm text-brand-charcoal/80 leading-relaxed max-w-3xl">
+                Motion defines the fluidity of the user journey. The site uses the Animate On Scroll (AOS) engine, 
+                triggering deep entries (1500ms duration, offset delays) as users navigate down sections. Hover states 
+                use subtle ease transitions on opacity, font family weightings, and transform translations.
+            </p>
+
+            <!-- Motion Simulator Sandbox -->
+            <div class="bg-white p-8 rounded border border-brand-sand/30 shadow-sm space-y-8">
+                
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-cream pb-4">
+                    <div>
+                        <h3 class="font-serif text-2xl text-brand-charcoal tracking-wide">AOS Scroll Animation Simulator</h3>
+                        <p class="font-sans text-xs text-brand-charcoal/50 mt-1">Trigger entrance curves at the exact production spec: 1.2s - 1.5s duration</p>
+                    </div>
+                    
+                    <!-- Action Triggers -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="triggerAnimation('fade-up')" class="bg-brand-charcoal hover:bg-brand-sand hover:text-brand-charcoal text-white font-sans text-xs uppercase tracking-widest py-2.5 px-4 rounded transition">
+                            Fade Up
+                        </button>
+                        <button onclick="triggerAnimation('fade-left')" class="bg-brand-charcoal hover:bg-brand-sand hover:text-brand-charcoal text-white font-sans text-xs uppercase tracking-widest py-2.5 px-4 rounded transition">
+                            Fade Left
+                        </button>
+                        <button onclick="triggerAnimation('fade-right')" class="bg-brand-charcoal hover:bg-brand-sand hover:text-brand-charcoal text-white font-sans text-xs uppercase tracking-widest py-2.5 px-4 rounded transition">
+                            Fade Right
+                        </button>
+                        <button onclick="triggerAnimation('zoom-in')" class="bg-brand-charcoal hover:bg-brand-sand hover:text-brand-charcoal text-white font-sans text-xs uppercase tracking-widest py-2.5 px-4 rounded transition">
+                            Zoom In
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Simulation Playground Arena -->
+                <div class="bg-brand-cream/40 aspect-[16/6] w-full rounded flex items-center justify-center overflow-hidden border border-brand-sand/20 p-6 relative">
+                    <div id="sandbox-card-elem" class="sandbox-card bg-brand-charcoal text-white max-w-sm p-8 rounded shadow-2xl border border-brand-charcoalLight text-center space-y-4">
+                        <span class="text-[9px] uppercase tracking-[0.2em] text-brand-sand">Live Preview Area</span>
+                        <h4 class="font-serif text-2xl uppercase tracking-widest">2 Rivers Sandbox</h4>
+                        <p class="font-sans text-xs text-brand-cream/70 leading-relaxed">
+                            Observe the entry curve. The transition uses ease-in-out properties to ensure premium velocity decay.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Specs Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Column 1 -->
+                    <div class="space-y-4 font-sans">
+                        <h4 class="font-semibold text-sm uppercase tracking-wider text-brand-charcoal">Entrance Spec Schema</h4>
+                        <table class="w-full text-xs text-brand-charcoal/70">
+                            <thead>
+                                <tr class="border-b border-brand-cream text-left font-semibold text-brand-charcoal">
+                                    <th class="pb-2">Property</th>
+                                    <th class="pb-2">Reference Value</th>
+                                    <th class="pb-2">Aesthetic Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-brand-cream/50">
+                                <tr>
+                                    <td class="py-3 font-mono font-bold">Duration</td>
+                                    <td class="py-3">1200ms - 1500ms</td>
+                                    <td class="py-3">Provides a slow, cinematic reveal.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-mono font-bold">Easing</td>
+                                    <td class="py-3">cubic-bezier(0.25, 0.46, 0.45, 0.94)</td>
+                                    <td class="py-3">Decelerates softly at the end.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-mono font-bold">Offset Distance</td>
+                                    <td class="py-3">40px translation</td>
+                                    <td class="py-3">Ensures entries feel light and elegant.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-mono font-bold">Cascade Delays</td>
+                                    <td class="py-3">300ms, 500ms, 700ms, 900ms</td>
+                                    <td class="py-3">Guides eyes from image to titles.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="space-y-4 font-sans text-xs">
+                        <h4 class="font-semibold text-sm uppercase tracking-wider text-brand-charcoal">Hover Transition Spec</h4>
+                        <div class="space-y-3 bg-brand-cream/30 p-4 rounded border border-brand-sand/20 text-brand-charcoal/70">
+                            <p>
+                                <strong class="text-brand-charcoal block mb-1">Image Grayscale to Full Color</strong>
+                                Transition: <code>filter 0.5s ease</code>. Grayscale is active by default to enforce palette neutrality, shifting to full color on element hover to invite user focus.
+                            </p>
+                            <p>
+                                <strong class="text-brand-charcoal block mb-1">Drawer Height Reveal (Property Details)</strong>
+                                Transition: <code>max-height 0.4s ease-out, opacity 0.3s ease</code>. Starts collapsed at 0px with opacity-0, expanding to reveal amenities list on card hover.
+                            </p>
+                            <p>
+                                <strong class="text-brand-charcoal block mb-1">Label Bottom Offset Translation</strong>
+                                Transition: <code>bottom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)</code>. Translates text positions upwards from 28px to 45px on container hover.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             INTERACTIVE COMPONENTS
+             ========================================== -->
+        <section id="interactive-components" class="space-y-6 scroll-mt-6">
+            <div class="sec-title-accent">
+                <span class="font-sans text-xs uppercase tracking-[0.2em] text-brand-charcoal/50">06 / Components</span>
+                <h2 class="font-serif text-4xl uppercase tracking-wider text-brand-charcoal font-light mt-1">Interactive Components</h2>
+            </div>
+            
+            <p class="font-sans text-sm text-brand-charcoal/80 leading-relaxed max-w-3xl">
+                These elements represent the navigational anchors and user action components. Each is designed with 
+                high responsiveness, utilizing clean borders, modern form guidelines, and customized scroll triggers.
+            </p>
+
+            <div class="space-y-12 pt-4">
+
+                <!-- 1. LIVE DROPDOWN NAVIGATION HEADER -->
+                <div class="space-y-4">
+                    <span class="block text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">06.1 / Dropdown Navigation Menu Bar (Hover elements)</span>
+                    
+                    <div class="bg-brand-charcoal p-6 rounded relative shadow-md">
+                        <div class="flex items-center justify-between font-sans text-xs">
+                            <span class="font-serif text-xl tracking-wider text-brand-sand font-light">2 RIVERS</span>
+                            
+                            <!-- Menu List Items -->
+                            <ul class="flex items-center space-x-8 uppercase tracking-[0.2em] text-white">
+                                <li><a href="#" class="hover:text-brand-sand transition">Home</a></li>
+                                
+                                <!-- Dropdown Nav Item -->
+                                <li class="nav-item relative py-2 cursor-pointer">
+                                    <span class="hover:text-brand-sand transition flex items-center gap-1.5">
+                                        Neighborhoods <i class="fa-solid fa-chevron-down text-[9px] text-brand-sand"></i>
+                                    </span>
+                                    <!-- Dropdown Sub-menu -->
+                                    <ul class="sub-menu absolute top-full left-1/2 bg-brand-charcoal min-w-[200px] border border-brand-charcoalLight rounded shadow-xl flex flex-col p-2 space-y-1 z-30">
+                                        <li><a href="#" class="block p-3 text-center text-white hover:bg-brand-charcoalLight hover:text-brand-sand rounded transition">Washington DC</a></li>
+                                        <li><a href="#" class="block p-3 text-center text-white hover:bg-brand-charcoalLight hover:text-brand-sand rounded transition">Maryland</a></li>
+                                        <li><a href="#" class="block p-3 text-center text-white hover:bg-brand-charcoalLight hover:text-brand-sand rounded transition">Virginia</a></li>
+                                    </ul>
+                                </li>
+
+                                <li><a href="#" class="hover:text-brand-sand transition">Meet Team</a></li>
+                                <li><a href="#" class="hover:text-brand-sand transition">Contact</a></li>
+                            </ul>
+
+                            <!-- Consultation Header CTA -->
+                            <a href="#" class="bg-white/10 hover:bg-brand-sand text-white hover:text-brand-charcoal border border-white/20 font-sans text-[10px] uppercase tracking-[0.25em] py-3 px-5 transition duration-300 rounded">
+                                <i class="fa-regular fa-calendar-days mr-2"></i>Book Consultation
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. SCROLL DOWN FLOATING BUTTON & SOCIAL PANEL -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Scroll down button preview -->
+                    <div class="bg-white p-6 rounded border border-brand-sand/30 shadow-sm flex flex-col items-center justify-center py-12 space-y-4">
+                        <span class="text-[9px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">Scroll Down Trigger</span>
+                        
+                        <div class="flex flex-col items-center group cursor-pointer">
+                            <span class="font-sans text-[10px] uppercase tracking-[0.4em] text-brand-charcoal group-hover:opacity-60 transition duration-300">Scroll Down</span>
+                            <!-- Bouncing outline arrow -->
+                            <div class="icon-scroll-d transform group-hover:translate-y-1.5 transition duration-300"></div>
+                        </div>
+
+                        <div class="text-[10px] text-brand-charcoal/40 font-sans text-center mt-4">
+                            Hover triggers downward nudge animation. Used at the bottom center of the landing hero.
+                        </div>
+                    </div>
+
+                    <!-- Floating social media panel preview -->
+                    <div class="bg-white p-6 rounded border border-brand-sand/30 shadow-sm flex flex-col items-center justify-center py-12 space-y-6">
+                        <span class="text-[9px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">Floating Social Media Panel</span>
+                        
+                        <!-- Panel Bar Simulator -->
+                        <div class="flex flex-col gap-2 font-sans">
+                            <a href="#" class="flex items-center justify-center w-11 h-11 bg-brand-charcoal/90 hover:bg-brand-sand text-white hover:text-brand-charcoal shadow-md rounded transition-all hover:-translate-x-1 duration-300">
+                                <i class="fa-brands fa-facebook-f text-lg"></i>
+                            </a>
+                            <a href="#" class="flex items-center justify-center w-11 h-11 bg-brand-charcoal/90 hover:bg-brand-sand text-white hover:text-brand-charcoal shadow-md rounded transition-all hover:-translate-x-1 duration-300">
+                                <i class="fa-brands fa-instagram text-lg"></i>
+                            </a>
+                            <a href="#" class="flex items-center justify-center w-11 h-11 bg-brand-charcoal/90 hover:bg-brand-sand text-white hover:text-brand-charcoal shadow-md rounded transition-all hover:-translate-x-1 duration-300">
+                                <i class="fa-brands fa-linkedin-in text-lg"></i>
+                            </a>
+                            <a href="#" class="flex items-center justify-center w-11 h-11 bg-brand-charcoal/90 hover:bg-brand-sand text-white hover:text-brand-charcoal shadow-md rounded transition-all hover:-translate-x-1 duration-300">
+                                <i class="fa-brands fa-youtube text-lg"></i>
+                            </a>
+                        </div>
+
+                        <div class="text-[10px] text-brand-charcoal/40 font-sans text-center mt-2">
+                            Sticky panel on screen left edge. Hover translates item outward slightly.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 3. INTERACTIVE FORM DESIGNS -->
+                <div class="space-y-4">
+                    <span class="block text-[10px] uppercase tracking-[0.2em] font-sans text-brand-charcoal/50">06.2 / Form Fields & Input Interfaces</span>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        
+                        <!-- Light Contact Form (site-form-b: borderless with bottom underline) -->
+                        <div class="bg-white p-8 rounded border border-brand-sand/30 shadow-sm space-y-6">
+                            <h4 class="font-serif text-xl uppercase tracking-wider text-brand-charcoal">Underline Contact Form (site-form-b)</h4>
+                            
+                            <form class="space-y-8 font-sans" onsubmit="event.preventDefault()">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div class="flex flex-col">
+                                        <label class="text-[10px] uppercase tracking-widest text-brand-charcoal/50 mb-2">First Name</label>
+                                        <input type="text" class="input-borderless py-2 text-sm uppercase tracking-widest text-brand-charcoal" placeholder="Enter First Name" />
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <label class="text-[10px] uppercase tracking-widest text-brand-charcoal/50 mb-2">Last Name</label>
+                                        <input type="text" class="input-borderless py-2 text-sm uppercase tracking-widest text-brand-charcoal" placeholder="Enter Last Name" />
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col relative">
+                                    <label class="text-[10px] uppercase tracking-widest text-brand-charcoal/50 mb-2">Your Message</label>
+                                    <textarea class="input-borderless py-2 text-sm uppercase tracking-widest text-brand-charcoal resize-none h-20 pr-12" placeholder="Write message here"></textarea>
+                                    
+                                    <!-- Send Icon Button (Absolute) -->
+                                    <button class="absolute bottom-2 right-2 text-xl text-brand-charcoal hover:text-brand-sand transition" title="Send Message">
+                                        <i class="fa-regular fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Dark Newsletter Form (Block minimal with input border) -->
+                        <div class="bg-brand-charcoal text-white p-8 rounded shadow-md space-y-6 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-serif text-xl uppercase tracking-wider text-brand-sand">Block Newsletter Form</h4>
+                                <p class="font-sans text-xs text-brand-cream/60 leading-relaxed mt-2">
+                                    Minimalist design featuring full-bleed dark inputs with transparent borders, paired with solid blocky buttons.
+                                </p>
+                            </div>
+                            
+                            <form class="space-y-4 font-sans mt-4" onsubmit="event.preventDefault()">
+                                <div class="dark-field relative flex flex-col">
+                                    <label class="text-[9px] uppercase tracking-widest text-brand-cream/50 mb-2">Email Address</label>
+                                    <input type="email" class="h-12 px-4 rounded text-sm tracking-wider w-full" placeholder="Enter Email Address" />
+                                </div>
+                                
+                                <button type="submit" class="w-full bg-white hover:bg-brand-sand text-brand-charcoal font-medium text-xs uppercase tracking-[0.2em] py-4 transition duration-300">
+                                    Get Our Newsletter
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         GLASSMORPHIC FLOATING NOTIFICATION TOAST
+         ========================================== -->
+    <div id="toast-message" class="fixed bottom-6 right-6 z-50 bg-brand-charcoal/90 text-brand-cream border border-brand-sand/30 backdrop-blur-md px-6 py-4 rounded shadow-2xl flex items-center gap-3 transition-all duration-300 translate-y-24 opacity-0 pointer-events-none">
+        <i class="fa-regular fa-circle-check text-brand-sand text-lg"></i>
+        <div>
+            <p class="font-sans text-xs uppercase tracking-wider font-semibold" id="toast-title">Copied!</p>
+            <p class="font-sans text-[10px] text-brand-cream/70 mt-0.5" id="toast-body">HEX code copied to clipboard.</p>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         JAVASCRIPT UTILITY SCRIPTS
+         ========================================== -->
+    <script>
+        // Copy to clipboard notification helper
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Copied Swatch!", `HEX code ${text} copied to clipboard.`);
+            });
+        }
+
+        // Copy raw code from recipe block
+        function copyCode(elemId) {
+            const codeText = document.getElementById(elemId).innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                showToast("Code Copied!", "Tailwind & CSS recipe copied to clipboard.");
+            });
+        }
+
+        // Show Toast popup
+        let toastTimeout;
+        function showToast(title, body) {
+            const toast = document.getElementById('toast-message');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-body').innerText = body;
+
+            // Clear previous timeout
+            clearTimeout(toastTimeout);
+
+            // Animate in
+            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            
+            // Timeout to animate out
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+
+        // Simulated animation runner for Motion sandbox
+        function triggerAnimation(type) {
+            const card = document.getElementById('sandbox-card-elem');
+            
+            // Remove all active animation classes
+            card.classList.remove('fade-up-active', 'fade-left-active', 'fade-right-active', 'zoom-in-active');
+            
+            // Force reflow (reset animation)
+            void card.offsetWidth;
+            
+            // Add class back
+            card.classList.add(`${type}-active`);
+            showToast("Animation Triggered", `Simulating data-aos="${type}" transition.`);
+        }
+
+        // Typography playground sync
+        function updatePlaygroundText() {
+            const input = document.getElementById('play-input').value;
+            const output = document.getElementById('play-output');
+            output.innerText = input || 'Type something...';
+        }
+
+        function updatePlaygroundFont() {
+            const fontSel = document.getElementById('play-font').value;
+            const output = document.getElementById('play-output');
+            
+            // Remove previous font classes
+            output.classList.remove('font-serif', 'font-sans');
+            output.classList.add(fontSel);
+        }
+
+        function updatePlayground() {
+            const size = document.getElementById('play-size').value;
+            const spacing = document.getElementById('play-spacing').value;
+            const output = document.getElementById('play-output');
+
+            // Update displays
+            document.getElementById('play-size-val').innerText = `${size}px`;
+            
+            const spacingValEm = (spacing / 100).toFixed(2);
+            document.getElementById('play-spacing-val').innerText = `${spacingValEm}em`;
+
+            // Apply style overrides
+            output.style.fontSize = `${size}px`;
+            output.style.letterSpacing = `${spacingValEm}em`;
+            output.style.lineHeight = '1.2';
+        }
+
+        // Initialize sandbox card animation
+        window.addEventListener('DOMContentLoaded', () => {
+            triggerAnimation('fade-up');
+        });
+    </script>
+</body>
+</html>
