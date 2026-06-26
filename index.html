@@ -358,7 +358,7 @@
             rgba(45, 43, 42, 0) 60%
           ),
           linear-gradient(rgba(45, 43, 42, 0.93), rgba(45, 43, 42, 0.93)),
-          url("../images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png")
+          url("images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png")
             center/cover no-repeat !important;
       }
       #services {
@@ -372,7 +372,7 @@
             rgba(224, 212, 201, 0) 60%
           ),
           linear-gradient(rgba(224, 212, 201, 0.93), rgba(224, 212, 201, 0.93)),
-          url("../images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_20%20PM%201.png")
+          url("images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_20%20PM%201.png")
             center/cover no-repeat !important;
       }
       #about {
@@ -386,7 +386,7 @@
             rgba(239, 234, 230, 0) 70%
           ),
           linear-gradient(rgba(239, 234, 230, 0.93), rgba(239, 234, 230, 0.93)),
-          url("../images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_37%20PM%201.png")
+          url("images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_37%20PM%201.png")
             center/cover no-repeat !important;
       }
       #communities {
@@ -400,7 +400,7 @@
             rgba(120, 80, 40, 0.08) 100%
           ),
           linear-gradient(rgba(239, 234, 230, 0.93), rgba(239, 234, 230, 0.93)),
-          url("../images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png")
+          url("images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png")
             center/cover no-repeat !important;
       }
       #testimonials {
@@ -414,7 +414,7 @@
             rgba(224, 212, 201, 0.07) 100%
           ),
           linear-gradient(rgba(45, 43, 42, 0.93), rgba(45, 43, 42, 0.93)),
-          url("../images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean%201.png")
+          url("images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean%201.png")
             center/cover no-repeat !important;
       }
       #contact {
@@ -494,8 +494,25 @@
         transform: translateY(0);
       }
 
+      #nav-toggle {
+        display: none;
+      }
+      .nav-mobile-cta {
+        display: none;
+      }
+
       /* Mobile */
       @media (max-width: 768px) {
+        #nav-toggle {
+          display: block !important;
+        }
+        #nav-phone,
+        #nav-cta {
+          display: none !important;
+        }
+        .nav-mobile-cta {
+          display: block !important;
+        }
         #nav-links {
           display: none;
         }
@@ -573,6 +590,25 @@
         .communities-desc {
           grid-template-columns: 1fr 1fr !important;
         }
+        .social-connect-flex {
+          flex-direction: column !important;
+          align-items: stretch !important;
+        }
+        .social-photo-grid {
+          margin-left: 0 !important;
+          max-width: 100% !important;
+          width: 100% !important;
+          display: grid !important;
+          grid-template-columns: 1fr 1fr !important;
+        }
+        #nav-inner {
+          padding-left: 1.25rem !important;
+          padding-right: 1.25rem !important;
+        }
+        #social-inner {
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
       }
     </style>
   </head>
@@ -585,6 +621,7 @@
       class="fixed top-0 left-0 right-0 z-50 bg-dark border-b border-sand/[0.08]"
     >
       <div
+        id="nav-inner"
         class="max-w-[1400px] mx-auto px-10 flex items-center justify-between h-[72px] relative"
       >
         <a href="#hero" class="no-underline shrink-0">
@@ -631,6 +668,12 @@
             class="text-[0.65rem] tracking-[0.12em] uppercase text-cream/[0.65] no-underline cursor-pointer transition-colors duration-300 hover:text-sand"
             >Contact</a
           >
+          <a
+            href="#contact"
+            class="nav-mobile-cta inline-block border border-sand text-cream tracking-[0.15em] text-[0.65rem] font-semibold uppercase py-[0.55rem] px-5 text-center transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
+          >
+            Schedule Consultation
+          </a>
         </div>
 
         <div class="flex items-center gap-5 shrink-0">
@@ -642,6 +685,7 @@
             559.555.1234
           </a>
           <a
+            id="nav-cta"
             href="#contact"
             class="inline-block border border-sand text-cream tracking-[0.15em] text-[0.65rem] font-semibold uppercase py-[0.55rem] px-5 transition-all duration-300 hover:bg-sand hover:text-dark cursor-pointer no-underline"
           >
@@ -649,7 +693,7 @@
           </a>
           <button
             id="nav-toggle"
-            class="hidden bg-transparent border-0 cursor-pointer p-1"
+            class="bg-transparent border-0 cursor-pointer p-1"
             aria-label="Toggle navigation"
           >
             <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
@@ -697,7 +741,7 @@
         class="absolute inset-0 w-full h-full object-cover object-center z-0 opacity-75"
       >
         <source
-          src="../images/Untitled_video_1_202606270124.mp4"
+          src="images/Untitled_video_1_202606270124.mp4"
           type="video/mp4"
         />
       </video>
@@ -791,7 +835,7 @@
                   rgba(45, 43, 42, 0) 60%
                 ),
                 linear-gradient(rgba(45, 43, 42, 0.91), rgba(45, 43, 42, 0.91)),
-                url(&quot;../images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_20%20PM%201.png&quot;)
+                url(&quot;images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_20%20PM%201.png&quot;)
                   center/cover no-repeat;
             "
             data-animate
@@ -843,7 +887,7 @@
                   rgba(80, 50, 30, 0.14) 100%
                 ),
                 linear-gradient(rgba(45, 43, 42, 0.91), rgba(45, 43, 42, 0.91)),
-                url(&quot;../images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_15_15%20PM%201.png&quot;)
+                url(&quot;images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_15_15%20PM%201.png&quot;)
                   center/cover no-repeat;
             "
             data-animate
@@ -903,7 +947,7 @@
                   rgba(200, 160, 100, 0.1) 100%
                 ),
                 linear-gradient(rgba(45, 43, 42, 0.91), rgba(45, 43, 42, 0.91)),
-                url(&quot;../images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean%201.png&quot;)
+                url(&quot;images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean%201.png&quot;)
                   center/cover no-repeat;
             "
             data-animate
@@ -988,7 +1032,7 @@
           <!-- Card 1 -->
           <div class="flex-1 relative" data-animate-scale>
             <img
-              src="../images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
               alt="Modern Fresno home interior"
               class="w-full h-[280px] object-cover block"
             />
@@ -1017,7 +1061,7 @@
           <!-- Card 2 -->
           <div class="flex-1 relative" data-animate-scale>
             <img
-              src="../images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
               alt="Mid-century Sacramento home"
               class="w-full h-[280px] object-cover block"
             />
@@ -1046,7 +1090,7 @@
           <!-- Card 3 -->
           <div class="flex-1 relative" data-animate-scale>
             <img
-              src="../images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
               alt="Dramatic Sacramento premium home"
               class="w-full h-[280px] object-cover block"
             />
@@ -1103,7 +1147,7 @@
           data-animate-scale
         >
           <img
-            src="../images/headshot.png"
+            src="images/headshot.png"
             alt="Bright premium interior"
             class="w-full h-full object-cover object-top"
           />
@@ -1165,7 +1209,7 @@
 
       <!-- Instagram Reels -->
       <div
-        class="w-full max-w-[1400px] mx-auto flex gap-6 mt-16 justify-between flex-wrap"
+        class="w-full max-w-[1400px] mx-auto flex gap-6 mt-16 justify-center lg:justify-between flex-wrap"
         data-animate
       >
         <a
@@ -1175,7 +1219,7 @@
           class="reel-card"
         >
           <video
-            src="../images/reel-1.mp4"
+            src="images/reel-1.mp4"
             autoplay
             muted
             loop
@@ -1199,7 +1243,7 @@
           class="reel-card"
         >
           <video
-            src="../images/reel-2.mp4"
+            src="images/reel-2.mp4"
             autoplay
             muted
             loop
@@ -1223,7 +1267,7 @@
           class="reel-card"
         >
           <video
-            src="../images/reel-3.mp4"
+            src="images/reel-3.mp4"
             autoplay
             muted
             loop
@@ -1247,7 +1291,7 @@
           class="reel-card"
         >
           <video
-            src="../images/reel-4.mp4"
+            src="images/reel-4.mp4"
             autoplay
             muted
             loop
@@ -1485,7 +1529,7 @@
           <div class="neighborhood-card flex-1">
             <img
               class="card-img absolute inset-0 w-full h-full object-cover"
-              src="../images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean 1.png"
+              src="images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean 1.png"
               alt="Fresno neighborhood"
             />
             <div class="label">Fresno, CA</div>
@@ -1493,7 +1537,7 @@
           <div class="neighborhood-card flex-1">
             <img
               class="card-img absolute inset-0 w-full h-full object-cover"
-              src="../images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
               alt="Greater Sacramento"
             />
             <div class="label">Greater Sacramento</div>
@@ -1501,7 +1545,7 @@
           <div class="neighborhood-card flex-1">
             <img
               class="card-img absolute inset-0 w-full h-full object-cover"
-              src="../images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
               alt="Modesto and Stockton"
             />
             <div class="label">Modesto &amp; Stockton</div>
@@ -1509,7 +1553,7 @@
           <div class="neighborhood-card flex-1">
             <img
               class="card-img absolute inset-0 w-full h-full object-cover"
-              src="../images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
               alt="Coalinga and Central Valley"
             />
             <div class="label">Coalinga &amp; Central Valley</div>
@@ -1599,7 +1643,7 @@
             data-animate-scale
           >
             <img
-              src="../images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png"
+              src="images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png"
               alt=""
               aria-hidden="true"
               class="absolute inset-0 object-cover w-full h-full brightness-[0.25] saturate-[0.3]"
@@ -1637,7 +1681,7 @@
             data-animate-scale
           >
             <img
-              src="../images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
               alt=""
               aria-hidden="true"
               class="absolute inset-0 object-cover w-full h-full brightness-[0.25] saturate-[0.3]"
@@ -1730,7 +1774,7 @@
           <div class="shrink-0 basis-[38%] overflow-hidden">
             <img
               id="test-photo"
-              src="../images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png"
+              src="images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png"
               alt="Client home"
               class="w-full h-[380px] object-cover block transition-opacity duration-[0.4s]"
             />
@@ -1791,8 +1835,8 @@
      SOCIAL CONNECT
 ══════════════════════════════════ -->
     <section id="social" class="py-24">
-      <div class="max-w-[1200px] mx-auto">
-        <div class="flex items-center">
+      <div id="social-inner" class="max-w-[1200px] mx-auto">
+        <div class="flex items-center social-connect-flex">
           <!-- CTA panel -->
           <div
             class="flex-1 bg-[#1e1c1b] py-16 px-12 relative overflow-hidden z-10"
@@ -1918,34 +1962,36 @@
           </div>
 
           <!-- Instagram-style photo grid -->
-          <div class="grid grid-cols-2 gap-0.5 z-0 -ml-40 max-w-[500px]">
+          <div
+            class="social-photo-grid grid grid-cols-2 gap-0.5 z-0 -ml-40 max-w-[500px]"
+          >
             <img
-              src="../images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
               alt="Interior 1"
               class="social-grid-photo"
             />
             <img
-              src="../images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png"
+              src="images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png"
               alt="Interior 2"
               class="social-grid-photo"
             />
             <img
-              src="../images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
               alt="Interior 3"
               class="social-grid-photo"
             />
             <img
-              src="../images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean 1.png"
+              src="images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean 1.png"
               alt="Interior 4"
               class="social-grid-photo"
             />
             <img
-              src="../images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
+              src="images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
               alt="Interior 5"
               class="social-grid-photo"
             />
             <img
-              src="../images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean 1.png"
+              src="images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean 1.png"
               alt="Interior 6"
               class="social-grid-photo"
             />
@@ -2272,14 +2318,14 @@
           name: "Past Client",
           loc: "Fresno, CA",
           photo:
-            "../images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png",
+            "images/Gemini_Generated_Image_yalkm2yalkm2yalk-clean 1.png",
         },
         {
           body: "Working with DeJone meant having real, honest conversations about what was actually best for our family long-term. His faith, calmness, and strategic negotiation turned a high-stress move into an incredible experience.",
           name: "Past Client",
           loc: "Central Valley, CA",
           photo:
-            "../images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean 1.png",
+            "images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean 1.png",
         },
       ];
 
