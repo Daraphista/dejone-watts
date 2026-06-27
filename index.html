@@ -18,6 +18,35 @@
               display: ['"Playfair Display"', "serif"],
               sans: ["Montserrat", "sans-serif"],
             },
+            keyframes: {
+              fadeUp: {
+                from: { opacity: "0", transform: "translateY(30px)" },
+                to: { opacity: "1", transform: "translateY(0)" },
+              },
+              fadeIn: {
+                from: { opacity: "0" },
+                to: { opacity: "1" },
+              },
+              bounceDown: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(8px)" },
+              },
+              slideInLeft: {
+                from: { opacity: "0", transform: "translateX(-40px)" },
+                to: { opacity: "1", transform: "translateX(0)" },
+              },
+              scaleIn: {
+                from: { opacity: "0", transform: "scale(0.94)" },
+                to: { opacity: "1", transform: "scale(1)" },
+              },
+            },
+            animation: {
+              "fade-up": "fadeUp 0.7s ease both",
+              "fade-in": "fadeIn 0.6s ease both",
+              "slide-left": "slideInLeft 0.7s ease both",
+              "scale-in": "scaleIn 0.6s ease both",
+              "bounce-down": "bounceDown 1.4s ease-in-out infinite",
+            },
           },
         },
       };
@@ -45,89 +74,11 @@
         background: rgba(224, 212, 201, 0.5);
       }
 
-      /* Animations */
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      @keyframes bounceDown {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(8px);
-        }
-      }
-      @keyframes slideInLeft {
-        from {
-          opacity: 0;
-          transform: translateX(-40px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-      @keyframes scaleIn {
-        from {
-          opacity: 0;
-          transform: scale(0.94);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-      .anim-fade-up {
-        animation: fadeUp 0.7s ease both;
-      }
-      .anim-fade-in {
-        animation: fadeIn 0.6s ease both;
-      }
-      .anim-slide-left {
-        animation: slideInLeft 0.7s ease both;
-      }
-      .anim-scale-in {
-        animation: scaleIn 0.6s ease both;
-      }
-      .anim-bounce {
-        animation: bounceDown 1.4s ease-in-out infinite;
-      }
-      .delay-100 {
-        animation-delay: 0.1s;
-      }
-      .delay-200 {
-        animation-delay: 0.2s;
-      }
-      .delay-300 {
-        animation-delay: 0.3s;
-      }
-      .delay-400 {
-        animation-delay: 0.4s;
-      }
-
-      /* Scroll-reveal */
+      /* Scroll-reveal (attribute selectors, JS-driven) */
       [data-animate] {
         opacity: 0;
         transform: translateY(28px);
-        transition:
-          opacity 0.7s ease,
-          transform 0.7s ease;
+        transition: opacity 0.7s ease, transform 0.7s ease;
       }
       [data-animate].revealed {
         opacity: 1;
@@ -136,9 +87,7 @@
       [data-animate-left] {
         opacity: 0;
         transform: translateX(-30px);
-        transition:
-          opacity 0.7s ease,
-          transform 0.7s ease;
+        transition: opacity 0.7s ease, transform 0.7s ease;
       }
       [data-animate-left].revealed {
         opacity: 1;
@@ -147,16 +96,14 @@
       [data-animate-scale] {
         opacity: 0;
         transform: scale(0.94);
-        transition:
-          opacity 0.6s ease,
-          transform 0.6s ease;
+        transition: opacity 0.6s ease, transform 0.6s ease;
       }
       [data-animate-scale].revealed {
         opacity: 1;
         transform: scale(1);
       }
 
-      /* Nav */
+      /* Nav (JS-toggled states) */
       #main-nav {
         transition: box-shadow 0.3s ease;
       }
@@ -164,37 +111,7 @@
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
       }
 
-      /* Neighborhood card */
-      .neighborhood-card img.card-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: grayscale(1) brightness(0.55);
-        transition:
-          filter 0.5s ease,
-          transform 0.5s ease;
-        display: block;
-      }
-      .neighborhood-card:hover img.card-img {
-        filter: grayscale(0.1) brightness(0.8);
-        transform: scale(1.04);
-      }
-      .neighborhood-card .label {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        padding: 1.25rem 0.75rem;
-        color: #fff;
-        font-size: 0.7rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        font-weight: 600;
-        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-      }
-
-      /* Property overlay card */
+      /* Pseudo-element SVG patterns (content: "" can't use @apply) */
       .property-overlay-card::before {
         content: "";
         position: absolute;
@@ -203,8 +120,6 @@
           no-repeat center/cover;
         pointer-events: none;
       }
-
-      /* Testimonial card */
       .testimonial-card::before {
         content: "";
         position: absolute;
@@ -213,8 +128,6 @@
           no-repeat center/cover;
         pointer-events: none;
       }
-
-      /* Stat tile */
       .stat-tile::before {
         content: "";
         position: absolute;
@@ -224,8 +137,36 @@
         pointer-events: none;
       }
 
+      /* Placeholder colors & select option bg (no Tailwind equivalent) */
+      .input-underline::placeholder,
+      .input-underline-area::placeholder {
+        color: rgba(239, 234, 230, 0.45);
+      }
+      .input-underline-select option {
+        background: #2d2b2a;
+        color: #efeae6;
+      }
+
+      /* Mobile: JS-toggled nav dropdown */
+      @media (max-width: 768px) {
+        #nav-links.open {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: #2d2b2a;
+          padding: 1.5rem 2rem;
+          z-index: 100;
+          border-top: 1px solid rgba(224, 212, 201, 0.1);
+        }
+      }
+
       /* Form inputs */
-      .input-underline {
+      .input-underline,
+      .input-underline-area {
         background: transparent;
         border: none;
         border-bottom: 1px solid rgba(224, 212, 201, 0.45);
@@ -238,10 +179,8 @@
         outline: none;
         transition: border-color 0.3s ease;
       }
-      .input-underline::placeholder {
-        color: rgba(239, 234, 230, 0.45);
-      }
-      .input-underline:focus {
+      .input-underline:focus,
+      .input-underline-area:focus {
         border-color: #e0d4c9;
       }
       .input-underline-select {
@@ -259,36 +198,14 @@
         appearance: none;
         cursor: pointer;
       }
-      .input-underline-select option {
-        background: #2d2b2a;
-        color: #efeae6;
-      }
       .input-underline-select:focus {
         border-color: #e0d4c9;
         color: #efeae6;
       }
       .input-underline-area {
-        background: transparent;
-        border: none;
-        border-bottom: 1px solid rgba(224, 212, 201, 0.45);
-        color: #efeae6;
-        font-family: "Montserrat", sans-serif;
-        font-size: 0.8rem;
-        letter-spacing: 0.1em;
-        padding: 0.65rem 0;
-        width: 100%;
-        outline: none;
         resize: none;
-        transition: border-color 0.3s ease;
         min-height: 80px;
       }
-      .input-underline-area::placeholder {
-        color: rgba(239, 234, 230, 0.45);
-      }
-      .input-underline-area:focus {
-        border-color: #e0d4c9;
-      }
-
       /* Slider dot */
       .slider-dot {
         width: 8px;
@@ -300,231 +217,6 @@
       }
       .slider-dot.active {
         background: #efeae6;
-      }
-
-      /* Section backgrounds */
-      #hero {
-        background:
-          linear-gradient(
-            135deg,
-            rgba(200, 130, 50, 0.09) 0%,
-            rgba(45, 43, 42, 0) 60%
-          ),
-          linear-gradient(rgba(45, 43, 42, 0.93), rgba(45, 43, 42, 0.93)),
-          url("images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png")
-            center/cover no-repeat !important;
-      }
-      #listings {
-        background:
-          linear-gradient(
-            220deg,
-            rgba(45, 43, 42, 0.08) 0%,
-            rgba(224, 212, 201, 0) 60%
-          ),
-          linear-gradient(rgba(224, 212, 201, 0.93), rgba(224, 212, 201, 0.93)),
-          url("images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_20%20PM%201.png")
-            center/cover no-repeat !important;
-      }
-      #why {
-        background:
-          linear-gradient(
-            to top left,
-            rgba(140, 100, 60, 0.1) 0%,
-            rgba(239, 234, 230, 0) 70%
-          ),
-          linear-gradient(rgba(239, 234, 230, 0.93), rgba(239, 234, 230, 0.93)),
-          url("images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_37%20PM%201.png")
-            center/cover no-repeat !important;
-      }
-      #resources {
-        background:
-          linear-gradient(
-            to bottom,
-            rgba(200, 180, 150, 0.08) 0%,
-            rgba(120, 80, 40, 0.08) 100%
-          ),
-          linear-gradient(rgba(239, 234, 230, 0.93), rgba(239, 234, 230, 0.93)),
-          url("images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png")
-            center/cover no-repeat !important;
-      }
-      #social {
-        background:
-          linear-gradient(
-            45deg,
-            rgba(80, 55, 35, 0.1) 0%,
-            rgba(224, 212, 201, 0.07) 100%
-          ),
-          linear-gradient(rgba(45, 43, 42, 0.93), rgba(45, 43, 42, 0.93)),
-          url("images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean%201.png")
-            center/cover no-repeat !important;
-      }
-      /* Reel card */
-      .reel-card {
-        display: block;
-        flex: 1;
-        min-width: 220px;
-        max-width: 320px;
-        overflow: hidden;
-        position: relative;
-        aspect-ratio: 9/16;
-        max-height: 480px;
-        background: #1a1a1a;
-        text-decoration: none;
-      }
-      .reel-card video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-      .reel-overlay {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        background: rgba(0, 0, 0, 0);
-        transition: background 0.3s ease;
-        pointer-events: none;
-      }
-      .reel-overlay-inner {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-        opacity: 0;
-        transform: translateY(6px);
-        transition:
-          opacity 0.3s ease,
-          transform 0.3s ease;
-      }
-      .reel-overlay-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        border: 1.5px solid rgba(224, 212, 201, 0.85);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .reel-overlay-icon svg {
-        width: 18px;
-        height: 18px;
-        fill: rgba(224, 212, 201, 0.9);
-        margin-left: 3px;
-      }
-      .reel-overlay-label {
-        font-size: 0.6rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: rgba(224, 212, 201, 0.85);
-        white-space: nowrap;
-        font-family: inherit;
-      }
-      .reel-card:hover .reel-overlay {
-        background: rgba(0, 0, 0, 0.48);
-      }
-      .reel-card:hover .reel-overlay-inner {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* Mobile */
-      @media (max-width: 768px) {
-        #nav-links.open {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          position: absolute;
-          top: 100%;
-          left: 0;
-          right: 0;
-          background: #2d2b2a;
-          padding: 1.5rem 2rem;
-          z-index: 100;
-          border-top: 1px solid rgba(224, 212, 201, 0.1);
-        }
-        .hero-split {
-          flex-direction: column !important;
-        }
-        .hero-photo-panel {
-          display: none !important;
-        }
-        .about-split {
-          flex-direction: column !important;
-        }
-        .about-photo-panel {
-          display: block !important;
-          flex-basis: auto !important;
-          width: 100% !important;
-          height: auto !important;
-        }
-        .services-grid {
-          flex-direction: column !important;
-        }
-        .listings-grid {
-          flex-direction: column !important;
-          padding-bottom: 0 !important;
-        }
-        .nbhd-row {
-          flex-direction: column !important;
-          height: auto !important;
-        }
-        .neighborhood-card {
-          height: 200px !important;
-          flex: none !important;
-          width: 100% !important;
-        }
-        .neighborhood-card .label {
-          writing-mode: horizontal-tb !important;
-          transform: none !important;
-          bottom: 1rem !important;
-          left: 1rem !important;
-        }
-        .resources-grid {
-          flex-direction: column !important;
-        }
-        .testimonial-split {
-          flex-direction: column !important;
-        }
-        .connect-grid {
-          grid-template-columns: 1fr !important;
-        }
-        .footer-top {
-          flex-direction: column !important;
-          gap: 2rem !important;
-        }
-        .footer-bottom {
-          flex-direction: column !important;
-          gap: 0.5rem !important;
-          text-align: center;
-        }
-        .why-split {
-          flex-direction: column !important;
-        }
-        .form-row {
-          flex-direction: column !important;
-        }
-        .communities-desc {
-          grid-template-columns: 1fr 1fr !important;
-        }
-        .social-connect-flex {
-          flex-direction: column !important;
-          align-items: stretch !important;
-        }
-        .social-photo-grid {
-          margin-left: 0 !important;
-          max-width: 100% !important;
-          width: 100% !important;
-          display: grid !important;
-          grid-template-columns: 1fr 1fr !important;
-        }
-        #social-inner {
-          padding-left: 0 !important;
-          padding-right: 0 !important;
-        }
       }
     </style>
   </head>
@@ -644,7 +336,7 @@
     <!-- ══════════════════════════════════
      HERO
 ══════════════════════════════════ -->
-    <section id="hero" class="bg-dark relative pt-24 flex flex-col">
+    <section id="hero" class="bg-dark relative pt-24 flex flex-col" style="background: linear-gradient(135deg, rgba(200,130,50,0.09) 0%, rgba(45,43,42,0) 60%), linear-gradient(rgba(45,43,42,0.93), rgba(45,43,42,0.93)), url('images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png') center/cover no-repeat;">
       <div class="absolute inset-0 bg-dark/50 z-10"></div>
 
       <video
@@ -661,7 +353,7 @@
       </video>
 
       <div
-        class="relative z-20 flex-1 flex flex-col items-center justify-center text-center w-full pt-20 pb-12 px-10 anim-fade-up"
+        class="relative z-20 flex-1 flex flex-col items-center justify-center text-center w-full pt-20 pb-12 px-10 animate-fade-up"
       >
         <div
           class="text-[0.65rem] tracking-[0.3em] uppercase text-sand/[0.55] font-semibold mb-7"
@@ -691,7 +383,7 @@
       </div>
 
       <div
-        class="anim-bounce flex flex-col items-center gap-2 tracking-[0.2em] text-[0.6rem] uppercase text-cream/60 pb-10 self-center relative z-20"
+        class="animate-bounce-down flex flex-col items-center gap-2 tracking-[0.2em] text-[0.6rem] uppercase text-cream/60 pb-10 self-center relative z-20"
       >
         <span>Scroll Down</span>
         <svg
@@ -737,7 +429,7 @@
           sales tactics. Just strategic, relationship-driven advisory.
         </p>
 
-        <div class="flex gap-12 services-grid">
+        <div class="flex gap-12 max-md:flex-col">
           <!-- Blurb 1 — Strategic Buyer -->
           <div
             class="flex-1 relative overflow-hidden p-9 border-l-[3px] border-sand/[0.35]"
@@ -907,7 +599,7 @@
     <!-- ══════════════════════════════════
      FEATURED LISTINGS
 ══════════════════════════════════ -->
-    <section id="listings" class="py-24 px-10">
+    <section id="listings" class="py-24 px-10" style="background: linear-gradient(220deg, rgba(45,43,42,0.08) 0%, rgba(224,212,201,0) 60%), linear-gradient(rgba(224,212,201,0.93), rgba(224,212,201,0.93)), url('images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_20%20PM%201.png') center/cover no-repeat;">
       <div class="max-w-[1400px] mx-auto">
         <div class="flex items-start justify-between flex-wrap gap-6 mb-6">
           <div class="section-eyebrow" data-animate>
@@ -942,7 +634,7 @@
           Valley.
         </p>
 
-        <div class="flex gap-8 pb-14 listings-grid">
+        <div class="flex gap-8 pb-14 max-md:flex-col max-md:pb-0">
           <!-- Card 1 -->
           <div class="flex-1 relative" data-animate-scale>
             <img
@@ -1054,10 +746,10 @@
         </svg>
       </div>
 
-      <div class="max-w-[1400px] mx-auto flex gap-20 items-center about-split">
+      <div class="max-w-[1400px] mx-auto flex gap-20 items-center max-md:flex-col">
         <!-- Photo -->
         <div
-          class="about-photo-panel shrink-0 overflow-hidden w-full md:w-[420px]"
+          class="shrink-0 overflow-hidden w-full md:w-[420px]"
           data-animate-scale
         >
           <img
@@ -1130,7 +822,7 @@
           href="https://www.instagram.com"
           target="_blank"
           rel="noopener"
-          class="reel-card"
+          class="group block flex-1 min-w-[220px] max-w-[320px] overflow-hidden relative aspect-[9/16] max-h-[480px] bg-[#1a1a1a] no-underline"
         >
           <video
             src="images/reel-1.mp4"
@@ -1138,15 +830,16 @@
             muted
             loop
             playsinline
+            class="w-full h-full object-cover block"
           ></video>
-          <div class="reel-overlay">
-            <div class="reel-overlay-inner">
-              <div class="reel-overlay-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-transparent group-hover:bg-black/[0.48] transition-colors duration-300 pointer-events-none">
+            <div class="flex flex-col items-center gap-2 opacity-0 translate-y-[6px] group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+              <div class="w-11 h-11 rounded-full border-[1.5px] border-sand/85 flex items-center justify-center">
+                <svg class="w-[18px] h-[18px] fill-sand/90 ml-[3px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
-              <span class="reel-overlay-label">Watch on Instagram</span>
+              <span class="text-[0.6rem] tracking-[0.18em] uppercase text-sand/85 whitespace-nowrap font-sans">Watch on Instagram</span>
             </div>
           </div>
         </a>
@@ -1154,7 +847,7 @@
           href="https://www.instagram.com"
           target="_blank"
           rel="noopener"
-          class="reel-card"
+          class="group block flex-1 min-w-[220px] max-w-[320px] overflow-hidden relative aspect-[9/16] max-h-[480px] bg-[#1a1a1a] no-underline"
         >
           <video
             src="images/reel-2.mp4"
@@ -1162,15 +855,16 @@
             muted
             loop
             playsinline
+            class="w-full h-full object-cover block"
           ></video>
-          <div class="reel-overlay">
-            <div class="reel-overlay-inner">
-              <div class="reel-overlay-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-transparent group-hover:bg-black/[0.48] transition-colors duration-300 pointer-events-none">
+            <div class="flex flex-col items-center gap-2 opacity-0 translate-y-[6px] group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+              <div class="w-11 h-11 rounded-full border-[1.5px] border-sand/85 flex items-center justify-center">
+                <svg class="w-[18px] h-[18px] fill-sand/90 ml-[3px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
-              <span class="reel-overlay-label">Watch on Instagram</span>
+              <span class="text-[0.6rem] tracking-[0.18em] uppercase text-sand/85 whitespace-nowrap font-sans">Watch on Instagram</span>
             </div>
           </div>
         </a>
@@ -1178,7 +872,7 @@
           href="https://www.instagram.com"
           target="_blank"
           rel="noopener"
-          class="reel-card"
+          class="group block flex-1 min-w-[220px] max-w-[320px] overflow-hidden relative aspect-[9/16] max-h-[480px] bg-[#1a1a1a] no-underline"
         >
           <video
             src="images/reel-3.mp4"
@@ -1186,15 +880,16 @@
             muted
             loop
             playsinline
+            class="w-full h-full object-cover block"
           ></video>
-          <div class="reel-overlay">
-            <div class="reel-overlay-inner">
-              <div class="reel-overlay-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-transparent group-hover:bg-black/[0.48] transition-colors duration-300 pointer-events-none">
+            <div class="flex flex-col items-center gap-2 opacity-0 translate-y-[6px] group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+              <div class="w-11 h-11 rounded-full border-[1.5px] border-sand/85 flex items-center justify-center">
+                <svg class="w-[18px] h-[18px] fill-sand/90 ml-[3px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
-              <span class="reel-overlay-label">Watch on Instagram</span>
+              <span class="text-[0.6rem] tracking-[0.18em] uppercase text-sand/85 whitespace-nowrap font-sans">Watch on Instagram</span>
             </div>
           </div>
         </a>
@@ -1202,7 +897,7 @@
           href="https://www.instagram.com"
           target="_blank"
           rel="noopener"
-          class="reel-card"
+          class="group block flex-1 min-w-[220px] max-w-[320px] overflow-hidden relative aspect-[9/16] max-h-[480px] bg-[#1a1a1a] no-underline"
         >
           <video
             src="images/reel-4.mp4"
@@ -1210,15 +905,16 @@
             muted
             loop
             playsinline
+            class="w-full h-full object-cover block"
           ></video>
-          <div class="reel-overlay">
-            <div class="reel-overlay-inner">
-              <div class="reel-overlay-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-transparent group-hover:bg-black/[0.48] transition-colors duration-300 pointer-events-none">
+            <div class="flex flex-col items-center gap-2 opacity-0 translate-y-[6px] group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+              <div class="w-11 h-11 rounded-full border-[1.5px] border-sand/85 flex items-center justify-center">
+                <svg class="w-[18px] h-[18px] fill-sand/90 ml-[3px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
-              <span class="reel-overlay-label">Watch on Instagram</span>
+              <span class="text-[0.6rem] tracking-[0.18em] uppercase text-sand/85 whitespace-nowrap font-sans">Watch on Instagram</span>
             </div>
           </div>
         </a>
@@ -1249,7 +945,7 @@
     <!-- ══════════════════════════════════
      WHY CHOOSE ME / STATS
 ══════════════════════════════════ -->
-    <section id="why" class="py-24 px-10">
+    <section id="why" class="py-24 px-10" style="background: linear-gradient(to top left, rgba(140,100,60,0.1) 0%, rgba(239,234,230,0) 70%), linear-gradient(rgba(239,234,230,0.93), rgba(239,234,230,0.93)), url('images/ChatGPT%20Image%20Jun%2026%2C%202026%2C%2011_13_37%20PM%201.png') center/cover no-repeat;">
       <div class="max-w-[1400px] mx-auto">
         <div class="section-eyebrow mb-6" data-animate>
           <div>
@@ -1273,7 +969,7 @@
           the framework I bring to every client partnership:
         </p>
 
-        <div class="flex gap-16 why-split">
+        <div class="flex gap-16 max-md:flex-col">
           <!-- Left: principles -->
           <div class="flex-1 flex flex-col gap-10" data-animate>
             <div class="flex gap-5 items-start">
@@ -1439,43 +1135,43 @@
         </div>
 
         <!-- Neighborhood cards -->
-        <div class="flex gap-1 h-[400px] nbhd-row" data-animate>
-          <div class="neighborhood-card relative overflow-hidden cursor-pointer flex-1">
+        <div class="flex gap-1 h-[400px] max-md:flex-col max-md:h-auto" data-animate>
+          <div class="group relative overflow-hidden cursor-pointer flex-1 max-md:h-[200px] max-md:w-full max-md:flex-none">
             <img
-              class="card-img absolute inset-0 w-full h-full object-cover"
+              class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.55] transition-[filter,transform] duration-500 group-hover:grayscale-[10%] group-hover:brightness-[0.8] group-hover:scale-[1.04]"
               src="images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean 1.png"
               alt="Fresno neighborhood"
             />
-            <div class="label">Fresno, CA</div>
+            <div class="absolute bottom-0 left-0 [writing-mode:vertical-rl] rotate-180 py-5 px-3 text-white text-[0.7rem] tracking-[0.18em] uppercase font-semibold [text-shadow:0_1px_4px_rgba(0,0,0,0.6)] max-md:[writing-mode:horizontal-tb] max-md:rotate-0 max-md:bottom-4 max-md:left-4">Fresno, CA</div>
           </div>
-          <div class="neighborhood-card relative overflow-hidden cursor-pointer flex-1">
+          <div class="group relative overflow-hidden cursor-pointer flex-1 max-md:h-[200px] max-md:w-full max-md:flex-none">
             <img
-              class="card-img absolute inset-0 w-full h-full object-cover"
+              class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.55] transition-[filter,transform] duration-500 group-hover:grayscale-[10%] group-hover:brightness-[0.8] group-hover:scale-[1.04]"
               src="images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
               alt="Greater Sacramento"
             />
-            <div class="label">Greater Sacramento</div>
+            <div class="absolute bottom-0 left-0 [writing-mode:vertical-rl] rotate-180 py-5 px-3 text-white text-[0.7rem] tracking-[0.18em] uppercase font-semibold [text-shadow:0_1px_4px_rgba(0,0,0,0.6)] max-md:[writing-mode:horizontal-tb] max-md:rotate-0 max-md:bottom-4 max-md:left-4">Greater Sacramento</div>
           </div>
-          <div class="neighborhood-card relative overflow-hidden cursor-pointer flex-1">
+          <div class="group relative overflow-hidden cursor-pointer flex-1 max-md:h-[200px] max-md:w-full max-md:flex-none">
             <img
-              class="card-img absolute inset-0 w-full h-full object-cover"
+              class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.55] transition-[filter,transform] duration-500 group-hover:grayscale-[10%] group-hover:brightness-[0.8] group-hover:scale-[1.04]"
               src="images/ChatGPT Image Jun 26, 2026, 11_13_37 PM 1.png"
               alt="Modesto and Stockton"
             />
-            <div class="label">Modesto &amp; Stockton</div>
+            <div class="absolute bottom-0 left-0 [writing-mode:vertical-rl] rotate-180 py-5 px-3 text-white text-[0.7rem] tracking-[0.18em] uppercase font-semibold [text-shadow:0_1px_4px_rgba(0,0,0,0.6)] max-md:[writing-mode:horizontal-tb] max-md:rotate-0 max-md:bottom-4 max-md:left-4">Modesto &amp; Stockton</div>
           </div>
-          <div class="neighborhood-card relative overflow-hidden cursor-pointer flex-1">
+          <div class="group relative overflow-hidden cursor-pointer flex-1 max-md:h-[200px] max-md:w-full max-md:flex-none">
             <img
-              class="card-img absolute inset-0 w-full h-full object-cover"
+              class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.55] transition-[filter,transform] duration-500 group-hover:grayscale-[10%] group-hover:brightness-[0.8] group-hover:scale-[1.04]"
               src="images/ChatGPT Image Jun 26, 2026, 11_15_15 PM 1.png"
               alt="Coalinga and Central Valley"
             />
-            <div class="label">Coalinga &amp; Central Valley</div>
+            <div class="absolute bottom-0 left-0 [writing-mode:vertical-rl] rotate-180 py-5 px-3 text-white text-[0.7rem] tracking-[0.18em] uppercase font-semibold [text-shadow:0_1px_4px_rgba(0,0,0,0.6)] max-md:[writing-mode:horizontal-tb] max-md:rotate-0 max-md:bottom-4 max-md:left-4">Coalinga &amp; Central Valley</div>
           </div>
         </div>
 
         <!-- Descriptions -->
-        <div class="grid grid-cols-4 gap-8 mt-8 communities-desc">
+        <div class="grid grid-cols-4 gap-8 mt-8 max-md:grid-cols-2">
           <div data-animate>
             <div
               class="text-[0.75rem] font-bold tracking-[0.1em] uppercase mb-2"
@@ -1527,7 +1223,7 @@
     <!-- ══════════════════════════════════
      GUIDES & RESOURCES
 ══════════════════════════════════ -->
-    <section id="resources" class="py-24 px-10">
+    <section id="resources" class="py-24 px-10" style="background: linear-gradient(to bottom, rgba(200,180,150,0.08) 0%, rgba(120,80,40,0.08) 100%), linear-gradient(rgba(239,234,230,0.93), rgba(239,234,230,0.93)), url('images/Gemini_Generated_Image_kgtt07kgtt07kgtt-clean%201.png') center/cover no-repeat;">
       <div class="max-w-[1400px] mx-auto">
         <div class="section-eyebrow mb-16" data-animate>
           <div>
@@ -1550,7 +1246,7 @@
           </div>
         </div>
 
-        <div class="flex gap-8 resources-grid">
+        <div class="flex gap-8 max-md:flex-col">
           <!-- Card 1 -->
           <div
             class="flex-1 min-h-[320px] text-cream p-10 relative overflow-hidden"
@@ -1681,7 +1377,7 @@
         </div>
 
         <div
-          class="flex gap-8 items-stretch relative testimonial-split"
+          class="flex gap-8 items-stretch relative max-md:flex-col"
           data-animate
         >
           <!-- Photo -->
@@ -1748,9 +1444,9 @@
     <!-- ══════════════════════════════════
      SOCIAL CONNECT
 ══════════════════════════════════ -->
-    <section id="social" class="py-24">
-      <div id="social-inner" class="max-w-[1200px] mx-auto">
-        <div class="flex items-center social-connect-flex">
+    <section id="social" class="py-24" style="background: linear-gradient(45deg, rgba(80,55,35,0.1) 0%, rgba(224,212,201,0.07) 100%), linear-gradient(rgba(45,43,42,0.93), rgba(45,43,42,0.93)), url('images/Gemini_Generated_Image_5an7pd5an7pd5an7-clean%201.png') center/cover no-repeat;">
+      <div id="social-inner" class="max-w-[1200px] mx-auto max-md:px-0">
+        <div class="flex items-center max-md:flex-col max-md:items-stretch">
           <!-- CTA panel -->
           <div
             class="flex-1 bg-[#1e1c1b] py-16 px-12 relative overflow-hidden z-10"
@@ -1877,7 +1573,7 @@
 
           <!-- Instagram-style photo grid -->
           <div
-            class="social-photo-grid grid grid-cols-2 gap-0.5 z-0 -ml-40 max-w-[500px]"
+            class="grid grid-cols-2 gap-0.5 z-0 -ml-40 max-w-[500px] max-md:ml-0 max-md:max-w-full max-md:w-full"
           >
             <img
               src="images/ChatGPT Image Jun 26, 2026, 11_13_20 PM 1.png"
@@ -1959,7 +1655,7 @@
         </p>
 
         <form id="contact-form" data-animate>
-          <div class="flex gap-8 mb-8 form-row">
+          <div class="flex gap-8 mb-8 max-md:flex-col">
             <div class="flex-1">
               <input
                 class="input-underline"
@@ -1984,7 +1680,7 @@
               />
             </div>
           </div>
-          <div class="flex gap-8 mb-8 form-row">
+          <div class="flex gap-8 mb-8 max-md:flex-col">
             <div class="flex-1 relative">
               <select class="input-underline-select" required>
                 <option value="" disabled selected>I am looking to...</option>
@@ -2053,7 +1749,7 @@
     <footer class="bg-[#1e1c1b] pt-16 pb-8 px-10 border-t border-sand/[0.08]">
       <div class="max-w-[1400px] mx-auto">
         <div
-          class="flex items-start justify-between mb-12 pb-8 border-b border-sand/[0.08] footer-top"
+          class="flex items-start justify-between mb-12 pb-8 border-b border-sand/[0.08] max-md:flex-col max-md:gap-8"
         >
           <div>
             <div
@@ -2151,7 +1847,7 @@
         </div>
 
         <div
-          class="flex justify-between items-start flex-wrap gap-4 footer-bottom"
+          class="flex justify-between items-start flex-wrap gap-4 max-md:flex-col max-md:gap-2 max-md:text-center"
         >
           <div
             class="text-[0.68rem] text-sand/30 font-light leading-[1.75] max-w-[600px]"
